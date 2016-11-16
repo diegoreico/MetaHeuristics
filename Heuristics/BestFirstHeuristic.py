@@ -7,3 +7,5 @@ class BestFirstHeuristic(AbstractHeuristic):
 
     def calculate(self, solution):
         super().calculate(solution)
+
+    def permute(self,solution):
