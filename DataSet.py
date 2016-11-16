@@ -18,9 +18,9 @@ class DataSet:
 
     def getValueXY(self,x,y):
         if x > y:
-            return self._value[x][y]
+            return int(self._value[x][y])
         else:
-            return self._value[y][x]
+            return int(self._value[y][x])
 
     def __init__(self, value=None):
         if value is None:
