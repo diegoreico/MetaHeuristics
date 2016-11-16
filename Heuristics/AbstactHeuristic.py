@@ -26,11 +26,15 @@ class AbstractHeuristic(ABC):
 
         length = len(dataset[-1])-1
         solution = []
+
         for i in range(length):
             value = random.randint(1, length)
 
             while value in solution:
-                value = (value + 1) % length + 1
+                value = (value + 1) % (length + 1)
+
+                if value == 0:
+                    value = 1
 
             solution.append(value)
 
