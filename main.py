@@ -1,5 +1,5 @@
 from Loader import Loader
-from Heuristics import BestFirstHeuristic
+from Heuristics.BestFirstHeuristic import BestFirstHeuristic
 
 
 class Main:
@@ -12,7 +12,8 @@ class Main:
 
         heuristic = BestFirstHeuristic()
 
-        print(data)
+        print("\n ",data.value)
+        print("\n ",heuristic.generateRandomSolution(data.value))
 
 if __name__ == '__main__':
     Main()

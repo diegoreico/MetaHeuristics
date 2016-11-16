@@ -1,3 +1,5 @@
+from DataSet import DataSet
+
 class Loader:
 
     def __init__(self, path="./distancias_10.txt"):
@@ -5,10 +7,10 @@ class Loader:
 
     def load(self):
 
-        dataSet = []
+        dataSet = DataSet()
         file = open(self.path)
         for line in file:
-            dataSet.append(line.strip().split('\t'))
+            dataSet.value.append(line.strip().split('\t'))
 
         return dataSet
 
