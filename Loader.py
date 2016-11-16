@@ -12,6 +12,3 @@ class Loader:
 
         return dataSet
 
-if __name__ == '__main__':
-    loader = Loader()
-    loader.load()

@@ -1,4 +1,6 @@
 from Loader import Loader
+from Heuristics import BestFirstHeuristic
+
 
 class Main:
 
@@ -7,6 +9,8 @@ class Main:
         loader = Loader()
         data = loader.load()
         """ # select an heuristic """
+
+        heuristic = BestFirstHeuristic()
 
         print(data)
 
