@@ -4,6 +4,8 @@ from Heuristics.BestFirstHeuristic import BestFirstHeuristic
 
 class Main:
 
+    #TODO:delete unused objects
+
     def __init__(self):
         """ load from file """
         loader = Loader()
@@ -14,8 +16,9 @@ class Main:
 
         heuristic = BestFirstHeuristic()
 
-        print("\n ",dataSet.value)
-        solution = heuristic.generateRandomSolution(dataSet.value)
+        heuristic.generateDefaultExploredDataset(dataSet)
+
+        solution = heuristic.generateRandomSolution(dataSet)
         print("\nRANDOM SOLUTION: ",solution)
         print("\nCOST OF SOLUTION: ",heuristic.calculateCost(dataSet,solution))
 

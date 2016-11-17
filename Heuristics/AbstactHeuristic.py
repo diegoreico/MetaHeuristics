@@ -3,6 +3,7 @@ import random as random
 
 
 class AbstractHeuristic(ABC):
+
     @abstractmethod
     def calculate(self, solution):
         pass
@@ -16,7 +17,7 @@ class AbstractHeuristic(ABC):
 
         for i in range(0, len(solution)-1):
             cost += dataset.getValueXY(solution[i], solution[i + 1])
-            i += 1
+            i += 1 #TODO: esto debería sobrar
 
         cost += dataset.getValueXY(i,solution[0])
 
@@ -24,7 +25,7 @@ class AbstractHeuristic(ABC):
 
     def generateRandomSolution(self, dataset):
 
-        length = len(dataset[-1])-1
+        length = len(dataset.value[-1])-1
         solution = []
 
         for i in range(length):
