@@ -2,7 +2,7 @@
 
 # MetaHeuristics
 
-A repositorie with a comparission of different metaheuristics
+A repositorie with an explanation and a comparission of different metaheuristics
 
 ## Base Problem - Travelling salesman problem
 We must travel from the origin city, go through all the cities and come back to the origin city. For this we should use the shortest path that we can found and we can't pass two times for the same city.
@@ -23,7 +23,6 @@ In the representation of the solution, we assume that we start in city 0 and tha
 
 The cost of the solution is the sum of the distances of traveling from one city to another following the solution path. We must remember that we start at city 0 and we have to return to city 0.
 
-    Ex:
     C = D(0,1) + D(1,2)+ ··· + D(j,k) + ··· + D(k,n-1) + D(n-1,n) + D(n,0)
 
 
