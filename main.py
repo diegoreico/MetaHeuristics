@@ -1,7 +1,7 @@
 from Loader import Loader
 from Utils.RandomGenerator import RandomGenerator
 from Heuristics.BestFirstHeuristic import BestFirstHeuristic
-
+import sys
 
 class Main:
 
@@ -9,12 +9,24 @@ class Main:
 
     def __init__(self):
         """ load from file """
-        loader = Loader()
-        dataSet = loader.load()
-        """ # select an heuristic """
-        randomG = RandomGenerator("./aleatorios_ls_2016.txt")
-        #randomG = RandomGenerator("./aleatorios_ls_2016.txt")
 
+        print('Number of arguments:', len(sys.argv), 'arguments.')
+        loader = None
+        randomG = None
+
+        if len(sys.argv) > 1:
+            loader = Loader(sys.argv[1])
+        else:
+            loader = Loader()
+
+        dataSet = loader.load()
+
+        if len(sys.argv) > 2:
+            randomG = RandomGenerator(sys.argv[2])
+        else:
+            randomG = RandomGenerator()
+
+        """ # select an heuristic """
         heuristic = BestFirstHeuristic(randomG)
 
         solution = heuristic.generateRandomSolution(dataSet)
