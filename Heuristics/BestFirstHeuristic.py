@@ -1,6 +1,6 @@
 from Heuristics.AbstactHeuristic import AbstractHeuristic
 from DataSet import DataSet
-import random as random
+import sys
 
 
 class BestFirstHeuristic(AbstractHeuristic):
@@ -8,6 +8,9 @@ class BestFirstHeuristic(AbstractHeuristic):
     """
         Calculates a solution using the current heuristic
     """
+
+    def __init__(self,randomGenerator=None):
+        super().__init__(randomGenerator)
 
     def calculate(self, dataset=None, solution=None, exploredataset=None):
 
@@ -19,22 +22,36 @@ class BestFirstHeuristic(AbstractHeuristic):
 
         maxPermutes = 0
         iterations = 0
+        totalIterations = 0
 
         # calculates the number of the current search space to know when to stop
-        for i in range(0,len(exploredataset.value)):
-            maxPermutes += len(exploredataset.value[i])
 
-        print("\nNumero maximo de permutacions ", maxPermutes)
+        maxRowElems = len(exploredataset.value[-1])
+        maxPermutes += (maxRowElems * (maxRowElems - 1))/2
+
+        lastCost = self.calculateCost(dataset, solution)
+
+        sys.stdout.write("\nSolución "+ str(totalIterations) + " -> "+ str(solution)+ "; Coste: "+ str(lastCost))
 
         # explores the current search space
         while iterations < maxPermutes:
             # cost of the current solution
             lastCost = self.calculateCost(dataset,solution)
+
+            sys.stdout.write("\n\tVECINO_V"+str(iterations)+" -> Intercambio: ")
+
             # explores a new solution
             newSolution = self.permute(dataset, exploredataset, list(solution))
+
             # cost of the new solution
             newCost = self.calculateCost(dataset,newSolution)
+
+            sys.stdout.write(" ;"+ str(newSolution)+ "; Coste: "+ str(newCost))
+
+
+
             iterations += 1
+            totalIterations +=1
 
             """
                 if the new solution is better than the old, then the current solution is the new solution.
@@ -43,6 +60,9 @@ class BestFirstHeuristic(AbstractHeuristic):
             if newCost < lastCost:
                 iterations = 0
                 solution = newSolution
+                lastCost = newCost
+                sys.stdout.write("\nSolución "+ str(totalIterations)+ " -> "+ str(solution)+ "; Coste: "+ str(lastCost))
+
                 for i in range(0,len(exploredataset.value)):
                     for j in range(0,len(exploredataset.value[i])):
                         exploredataset.value[i][j] = 0
@@ -69,11 +89,13 @@ class BestFirstHeuristic(AbstractHeuristic):
             return solution
 
         # generates 2 different random elements to permute
-        X = random.randint(0, len(dataset.value[-1]) - 2)
-        Y = random.randint(0, len(dataset.value[-1]) - 2)
+        X = self.randomGenerator.getRandomInt(0, len(dataset.value[-1]))
+        Y = self.randomGenerator.getRandomInt(0, len(dataset.value[-1]))
 
         while Y is X:
-            Y = random.randint(0, len(dataset.value[-1]) - 2)
+            Y = (Y+1) % (len(dataset.value[-1])-1)
+
+        #print("\nPERMUTA primero:",X,",segundo:",Y)
 
         # while the solution was already generated, we try to generate an unused solution
         while exploredataset.getValueXY(X, Y) == 1:
@@ -90,17 +112,17 @@ class BestFirstHeuristic(AbstractHeuristic):
                 X = Y
                 Y = aux
 
-            lengthX = len(exploredataset.value[Y])
+            lengthX = len(exploredataset.value[Y])-1
             lengthY = len(exploredataset.value)
             X += 1
 
             if (X >= lengthX):
                 X = 0
-                lengthX = len(exploredataset.value[Y])
+                lengthX = len(exploredataset.value[Y])-1
                 Y += 1
 
             if (Y >= lengthY):
-                Y = 0
+                Y = 1
                 lengthX = len(exploredataset.value[Y])
 
         exploredataset.setValueXY(X, Y, 1)
@@ -108,6 +130,8 @@ class BestFirstHeuristic(AbstractHeuristic):
         aux = solution[X]
         solution[X] = solution[Y]
         solution[Y] = aux
+
+        sys.stdout.write("("+str(X)+","+str(Y)+");")
 
         return solution
 

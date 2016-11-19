@@ -1,4 +1,5 @@
 from Loader import Loader
+from Utils.RandomGenerator import RandomGenerator
 from Heuristics.BestFirstHeuristic import BestFirstHeuristic
 
 
@@ -11,8 +12,10 @@ class Main:
         loader = Loader()
         dataSet = loader.load()
         """ # select an heuristic """
+        randomG = RandomGenerator("./aleatorios_ls_2016.txt")
+        #randomG = RandomGenerator("./aleatorios_ls_2016.txt")
 
-        heuristic = BestFirstHeuristic()
+        heuristic = BestFirstHeuristic(randomG)
 
         solution = heuristic.generateRandomSolution(dataSet)
 
@@ -28,3 +31,4 @@ class Main:
 
 if __name__ == '__main__':
     Main()
+

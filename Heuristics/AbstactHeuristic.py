@@ -1,6 +1,5 @@
 from abc import ABC, abstractmethod
-import random as random
-
+from Utils.RandomGenerator import RandomGenerator
 
 class AbstractHeuristic(ABC):
 
@@ -8,6 +7,13 @@ class AbstractHeuristic(ABC):
         Abstract class that defines some methods that should have
         all the heuristics made
     """
+
+    @abstractmethod
+    def __init__(self,randomGenerator=None):
+        if randomGenerator is None:
+            randomGenerator = RandomGenerator()
+
+        self.randomGenerator = randomGenerator
 
     @abstractmethod
     def calculate(self, dataset=None, solution=None, exploredataset=None):
@@ -19,8 +25,6 @@ class AbstractHeuristic(ABC):
         :param exploredataset: explored soluutions using the current solution as base
         :return: a solution one dimensional array
         """
-
-        pass
 
     def calculateCost(self, dataset, solution):
 
@@ -36,11 +40,21 @@ class AbstractHeuristic(ABC):
 
         cost += dataset.getValueXY(0, solution[0]-1)
 
-        for i in range(0, len(solution)-2):
-            cost += dataset.getValueXY(solution[i]-1, solution[i + 1]-1)
-            i += 1 #TODO: esto debería sobrar
+        #print("\t\t\ŧVALOR: ",dataset.getValueXY(0, solution[0]-1))
 
-        cost += dataset.getValueXY(i,solution[0]-1)
+        for i in range(0, len(solution)-1):
+            if solution[i] < solution[i+1]:
+                x = solution[i]
+                y = solution[i + 1]
+            else:
+                x = solution[i + 1]
+                y = solution[i]
+
+            cost += dataset.getValueXY(x, y-1)
+            #print("\t\t\ŧVALOR (",x,",",y-1,"):  =", dataset.getValueXY(x,y-1))
+
+        cost += dataset.getValueXY(0,solution[-1]-1)
+        #print("\t\t\ŧVALOR: (",0,",",solution[-1]-1,")", dataset.getValueXY(0,solution[-1]-1))
 
         return cost
 
@@ -66,7 +80,7 @@ class AbstractHeuristic(ABC):
             found a number that isn't in the array
         """
         for i in range(length):
-            value = random.randint(1, length)
+            value = self.randomGenerator.getRandomInt(1, length)
 
             while value in solution:
                 value = (value + 1) % (length + 1)
