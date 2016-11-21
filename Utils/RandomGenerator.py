@@ -19,6 +19,8 @@ class RandomGenerator:
 
             self.queueOfRandomNumbers = collections.deque(dataFromFile)
 
+            file.close()
+
         else:
             self.hasPath = False
 

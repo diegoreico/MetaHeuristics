@@ -12,5 +12,7 @@ class Loader:
         for line in file:
             dataSet.value.append(line.strip().split('\t'))
 
+        file.close()
+
         return dataSet
 
