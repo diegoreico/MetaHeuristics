@@ -27,6 +27,7 @@ class RandomGenerator:
         if self.hasPath:
             randomNumber = self.queueOfRandomNumbers.popleft()
 
+
             return i + int(randomNumber*j)
         else:
             return random.randint(i, j-1)

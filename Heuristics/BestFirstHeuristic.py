@@ -23,6 +23,7 @@ class BestFirstHeuristic(AbstractHeuristic):
         maxPermutes = 0
         iterations = 0
         totalIterations = 0
+        totalEncontrados = 0
 
         # calculates the number of the current search space to know when to stop
 
@@ -31,7 +32,7 @@ class BestFirstHeuristic(AbstractHeuristic):
 
         lastCost = self.calculateCost(dataset, solution)
 
-        sys.stdout.write("\nSolución "+ str(totalIterations) + " -> "+ str(solution)+ "; Coste: "+ str(lastCost))
+        sys.stdout.write("\nSolución "+ str(totalEncontrados) + " -> "+ str(solution)+ "; Coste: "+ str(lastCost))
 
         # explores the current search space
         while iterations < maxPermutes:
@@ -59,9 +60,10 @@ class BestFirstHeuristic(AbstractHeuristic):
             """
             if newCost < lastCost:
                 iterations = 0
+                totalEncontrados+=1
                 solution = newSolution
                 lastCost = newCost
-                sys.stdout.write("\nSolución "+ str(totalIterations)+ " -> "+ str(solution)+ "; Coste: "+ str(lastCost))
+                sys.stdout.write("\nSolución "+ str(totalEncontrados)+ " -> "+ str(solution)+ "; Coste: "+ str(lastCost))
 
                 for i in range(0,len(exploredataset.value)):
                     for j in range(0,len(exploredataset.value[i])):
@@ -89,28 +91,27 @@ class BestFirstHeuristic(AbstractHeuristic):
             return solution
 
         # generates 2 different random elements to permute
-        X = self.randomGenerator.getRandomInt(0, len(dataset.value[-1]))
-        Y = self.randomGenerator.getRandomInt(0, len(dataset.value[-1]))
+        X = self.randomGenerator.getRandomInt(0, len(solution))
+        Y = self.randomGenerator.getRandomInt(0, len(solution))
 
-        while Y is X:
-            Y = (Y+1) % (len(dataset.value[-1])-1)
+        # print("\nGeneracion X:",X," Y:",Y)
+
+
+        if X > Y:
+            aux = X
+            X = Y
+            Y = aux
 
         #print("\nPERMUTA primero:",X,",segundo:",Y)
 
         # while the solution was already generated, we try to generate an unused solution
-        while exploredataset.getValueXY(X, Y) == 1:
+        while exploredataset.getValueXY(X, Y) == 1 or X==Y:
 
             """
             0           0           0           0           0
             1 1     ->  x 1     ->  1 x   ->    1 1     ->  1 1
             0 1 0       0 1 0       0 1 0       x 1 0       1 1 0
             """
-
-
-            if X > Y:
-                aux = X
-                X = Y
-                Y = aux
 
             lengthX = len(exploredataset.value[Y])-1
             lengthY = len(exploredataset.value)
@@ -124,6 +125,9 @@ class BestFirstHeuristic(AbstractHeuristic):
             if (Y >= lengthY):
                 Y = 1
                 lengthX = len(exploredataset.value[Y])
+
+        # for k in range(0,len(exploredataset.value)):
+        #     print("\n",exploredataset.value[k])
 
         exploredataset.setValueXY(X, Y, 1)
 
