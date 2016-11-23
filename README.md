@@ -78,8 +78,21 @@ The algorithm stops once we can't generate a better solution applying an operato
     
 ## HOW TO RUN THE CODE
 
+### Normal execution
+
 ```bash
-python3 main.py
+python3 main.py filewithData
+python3 distancias_10.txt
+```
+
+### Debugging
+#### Providing a file with random numbers
+
+This allows you to replicate a previous simulation, because the program will use the numbers inside the file instead of generate new random numbers 
+
+```bash
+python3 main.py filewithData
+python3 distancias_10.txt aleatorios_ls_2016.txt
 ```
 
 # MIT License
