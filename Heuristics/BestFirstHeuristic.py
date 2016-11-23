@@ -32,14 +32,14 @@ class BestFirstHeuristic(AbstractHeuristic):
 
         lastCost = self.calculateCost(dataset, solution)
 
-        sys.stdout.write("\nSolución "+ str(totalEncontrados) + " -> "+ str(solution)+ "; Coste: "+ str(lastCost))
+        sys.stdout.write("\nSOLUCION S_"+ str(totalEncontrados) + " -> "+ str(solution)+ "; "+ str(lastCost)+"km")
 
         # explores the current search space
         while iterations < maxPermutes:
             # cost of the current solution
             lastCost = self.calculateCost(dataset,solution)
 
-            sys.stdout.write("\n\tVECINO_V"+str(iterations)+" -> Intercambio: ")
+            sys.stdout.write("\n\tVECINO V_"+str(iterations)+" -> Intercambio: ")
 
             # explores a new solution
             newSolution = self.permute(dataset, exploredataset, list(solution))
@@ -47,7 +47,7 @@ class BestFirstHeuristic(AbstractHeuristic):
             # cost of the new solution
             newCost = self.calculateCost(dataset,newSolution)
 
-            sys.stdout.write(" ;"+ str(newSolution)+ "; Coste: "+ str(newCost))
+            sys.stdout.write(" "+ str(newSolution)+ "; "+ str(newCost)+"km")
 
 
 
@@ -63,7 +63,7 @@ class BestFirstHeuristic(AbstractHeuristic):
                 totalEncontrados+=1
                 solution = newSolution
                 lastCost = newCost
-                sys.stdout.write("\nSolución "+ str(totalEncontrados)+ " -> "+ str(solution)+ "; Coste: "+ str(lastCost))
+                sys.stdout.write("\n\nSOLUCION S_"+ str(totalEncontrados)+ " -> "+ str(solution)+ "; "+ str(lastCost)+"km")
 
                 for i in range(0,len(exploredataset.value)):
                     for j in range(0,len(exploredataset.value[i])):
@@ -135,7 +135,10 @@ class BestFirstHeuristic(AbstractHeuristic):
         solution[X] = solution[Y]
         solution[Y] = aux
 
-        sys.stdout.write("("+str(X)+","+str(Y)+");")
+        if X > Y:
+            sys.stdout.write("("+str(X)+", "+str(Y)+");")
+        else:
+            sys.stdout.write("(" + str(Y) + ", " + str(X) + ");")
 
         return solution
 
@@ -155,6 +158,6 @@ class BestFirstHeuristic(AbstractHeuristic):
             for j in range(0, len(dataset.value[i])):
                 exploredValues[i].append(0)
 
-            print(exploredValues[i])
+            #print(exploredValues[i])
 
         return DataSet(exploredValues)

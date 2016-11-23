@@ -10,7 +10,7 @@ class Main:
     def __init__(self):
         """ load from file """
 
-        print('Number of arguments:', len(sys.argv), 'arguments.')
+        #print('Number of arguments:', len(sys.argv), 'arguments.')
         loader = None
         randomG = None
 
@@ -31,15 +31,15 @@ class Main:
 
         solution = heuristic.generateRandomSolution(dataSet)
 
-        print("\n\tExplore data set: ", dataSet.value)
+        #print("\n\tExplore data set: ", dataSet.value)
 
-        print("\nRANDOM SOLUTION: ",solution)
-        print("\nCOST OF SOLUTION: ",heuristic.calculateCost(dataSet,solution))
+        #print("\nRANDOM SOLUTION: ",solution)
+        #print("\nCOST OF SOLUTION: ",heuristic.calculateCost(dataSet,solution))
 
         solution = heuristic.calculate(dataSet,solution)
 
-        print("\nBEST SOLUTION: ",solution)
-        print("\nCOST OF SOLUTION: ",heuristic.calculateCost(dataSet,solution))
+        #print("\nBEST SOLUTION: ",solution)
+        #print("\nCOST OF SOLUTION: ",heuristic.calculateCost(dataSet,solution))
 
 if __name__ == '__main__':
     Main()
