@@ -2,7 +2,7 @@ from DataSet import DataSet
 
 class Loader:
 
-    def __init__(self, path="./distancias_10.txt"):
+    def __init__(self, path="./distancias_100.txt"):
         self.path=path
 
     def load(self):

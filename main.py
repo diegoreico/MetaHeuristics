@@ -38,8 +38,8 @@ class Main:
 
         solution = heuristic.calculate(dataSet,solution)
 
-        #print("\nBEST SOLUTION: ",solution)
-        #print("\nCOST OF SOLUTION: ",heuristic.calculateCost(dataSet,solution))
+        print("\nBEST SOLUTION: ",solution)
+        print("\nCOST OF SOLUTION: ",heuristic.calculateCost(dataSet,solution))
 
 if __name__ == '__main__':
     Main()
