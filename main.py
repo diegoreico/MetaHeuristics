@@ -1,6 +1,8 @@
 from Loader import Loader
 from Utils.RandomGenerator import RandomGenerator
 from Heuristics.BestFirstHeuristic import BestFirstHeuristic
+from Heuristics.TabuSearchHeuristic import TabuSearchHeuristic
+
 import sys
 
 class Main:
@@ -27,7 +29,9 @@ class Main:
             randomG = RandomGenerator()
 
         """ # select an heuristic """
-        heuristic = BestFirstHeuristic(randomG)
+
+        # heuristic = BestFirstHeuristic(randomG)
+        heuristic = TabuSearchHeuristic(randomG)
 
         solution = heuristic.generateRandomSolution(dataSet)
 
