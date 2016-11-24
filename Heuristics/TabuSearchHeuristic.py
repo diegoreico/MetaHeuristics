@@ -36,13 +36,17 @@ class TabuSearchHeuristic(AbstractHeuristic):
 
         x = 0
         y = 0
+        bestX=0
+        bestY=0
 
         # calculates the number of the current search space to know when to stop
         maxRowElems = len(dataset.value[-1])
         maxPermutes += (maxRowElems * (maxRowElems - 1))/2
 
         # explores the current search space
-        while totalIterations < maxIterations:
+        while totalIterations < maxIterations and iterationsWithoutUpgrade < 1000:
+
+            print("\nITERACION: " ,totalIterations)
 
             for i in range(0,len(dataset.value[-1])-1):
                 for j in range(0, i):
@@ -64,21 +68,47 @@ class TabuSearchHeuristic(AbstractHeuristic):
                                 y = j
 
                     iterations += 1
-                    totalIterations +=1
+
+            totalIterations +=1
 
             """
                 if the new solution is better than the old, then the current solution is the new solution.
                 The explored data set must be set do default values
             """
 
+            print("\nINTERMCAMBIO: (",x,", ",y,")")
+            print("\nRECORRIDO: " ,tmpBestSolution)
+            print("\nCOSTE(km): " ,tmpBestSolutionCost)
 
+            # LISTA
+            # TABU:
+            # 73
+            # 57
+            # 48
+            # 32
+            # 81
+            # 1
             solution = tmpBestSolution
             lastCost = tmpBestSolutionCost
+
+            if bestSolutionCost > lastCost:
+                bestSolutionCost = lastCost
+                bestSolution = solution
+                bestX = x
+                bestY = y
+                iterationsWithoutUpgrade = 0
+            else:
+                iterationsWithoutUpgrade += 1
+
+            print("\nITERACIONES SIN MEJORA: " ,iterationsWithoutUpgrade)
 
             self._tabu.append([x,y])
 
             if len(self._tabu) > 100:
                 self._tabu = self._tabu[1:-1]
+
+            for u in range(0,len(self._tabu)):
+                print("\n\t" ,self._tabu[u])
 
             #refacer
 
@@ -102,10 +132,10 @@ class TabuSearchHeuristic(AbstractHeuristic):
         solution[X] = solution[Y]
         solution[Y] = aux
 
-        if X > Y:
-            sys.stdout.write("("+str(X)+", "+str(Y)+");")
-        else:
-            sys.stdout.write("(" + str(Y) + ", " + str(X) + ");")
+        # if X > Y:
+        #     sys.stdout.write("("+str(X)+", "+str(Y)+");")
+        # else:
+        #     sys.stdout.write("(" + str(Y) + ", " + str(X) + ");")
 
         return solution
 
