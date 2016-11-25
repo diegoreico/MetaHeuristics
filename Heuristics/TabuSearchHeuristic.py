@@ -48,11 +48,12 @@ class TabuSearchHeuristic(AbstractHeuristic):
 
             print("\nITERACION: " ,totalIterations)
 
+            # cost of the current solution
+            lastCost = self.calculateCost(dataset, solution)
+            tmpBestSolutionCost = lastCost
+
             for i in range(0,len(dataset.value[-1])-1):
                 for j in range(0, i):
-
-                    # cost of the current solution
-                    lastCost = self.calculateCost(dataset,solution)
 
                     # explores a new solution
                     tmpSolution = self.permute(list(solution),i,j)
@@ -88,6 +89,7 @@ class TabuSearchHeuristic(AbstractHeuristic):
             # 32
             # 81
             # 1
+
             solution = tmpBestSolution
             lastCost = tmpBestSolutionCost
 
@@ -104,9 +106,12 @@ class TabuSearchHeuristic(AbstractHeuristic):
 
             self._tabu.append([x,y])
 
-            if len(self._tabu) > 100:
+            print("\n\nTABU 1;" ,self._tabu)
+            if len(self._tabu) >= 100:
                 self._tabu = self._tabu[1:-1]
 
+            print("\nTABU 2;" ,self._tabu)
+            print("\n")
             for u in range(0,len(self._tabu)):
                 print("\n\t" ,self._tabu[u])
 
