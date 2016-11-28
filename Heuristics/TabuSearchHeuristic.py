@@ -27,32 +27,47 @@ class TabuSearchHeuristic(AbstractHeuristic):
         maxIterations=10000
         maxPermutes = 0
 
-        iterations = 0
-        totalIterations = 0
-
-        totalEncontrados = 0
+        totalIterations = 1
 
         iterationsWithoutUpgrade =0
 
         x = 0
         y = 0
-        bestX=0
-        bestY=0
+        numberOfRestarts=0
+        bestIteration=0
 
         # calculates the number of the current search space to know when to stop
         maxRowElems = len(dataset.value[-1])
         maxPermutes += (maxRowElems * (maxRowElems - 1))/2
 
-        # explores the current search space
-        while totalIterations < maxIterations and iterationsWithoutUpgrade < 1000:
+        print("RECORRIDO INICIAL")
+        sys.stdout.write("\tRECORRIDO: ")
+        for k in range(0, len(tmpBestSolution)):
+            sys.stdout.write(str(tmpBestSolution[k])+" ")
 
-            print("\nITERACION: " ,totalIterations)
+        print("\n\tCOSTE (km):", tmpBestSolutionCost)
+
+
+        # explores the current search space
+        while totalIterations <= maxIterations:
+
+            if(iterationsWithoutUpgrade == 100):
+                self._tabu=[]
+                solution=bestSolution
+                numberOfRestarts+=1
+                iterationsWithoutUpgrade=0
+                print("\n***************");
+                print("REINICIO:",numberOfRestarts);
+                print("***************");
+
+
+            print("\nITERACION:" ,totalIterations)
 
             # cost of the current solution
             lastCost = self.calculateCost(dataset, solution)
-            tmpBestSolutionCost = lastCost
+            tmpBestSolutionCost = lastCost*2
 
-            for i in range(0,len(dataset.value[-1])-1):
+            for i in range(0,len(solution)):
                 for j in range(0, i):
 
                     # explores a new solution
@@ -61,64 +76,63 @@ class TabuSearchHeuristic(AbstractHeuristic):
                     # cost of the new solution
                     newCost = self.calculateCost(dataset, tmpSolution)
 
-                    if [i,j] not in self._tabu:
+                    if [i,j] not in self._tabu and i != j:
                         if newCost < tmpBestSolutionCost:
                                 tmpBestSolutionCost = newCost
                                 tmpBestSolution = tmpSolution
                                 x = i
                                 y = j
 
-                    iterations += 1
-
-            totalIterations +=1
 
             """
                 if the new solution is better than the old, then the current solution is the new solution.
                 The explored data set must be set do default values
             """
 
-            print("\nINTERMCAMBIO: (",x,", ",y,")")
-            print("\nRECORRIDO: " ,tmpBestSolution)
-            print("\nCOSTE(km): " ,tmpBestSolutionCost)
+            sys.stdout.write("\tINTERCAMBIO: ("+str(x)+", "+str(y)+")")
+            sys.stdout.write("\n\tRECORRIDO: ")
 
-            # LISTA
-            # TABU:
-            # 73
-            # 57
-            # 48
-            # 32
-            # 81
-            # 1
+            for k in range(0,len(tmpBestSolution)):
+                sys.stdout.write(str(tmpBestSolution[k])+" ")
+
+            print("\n\tCOSTE (km):" ,tmpBestSolutionCost)
 
             solution = tmpBestSolution
             lastCost = tmpBestSolutionCost
 
             if bestSolutionCost > lastCost:
                 bestSolutionCost = lastCost
-                bestSolution = solution
-                bestX = x
-                bestY = y
+                bestSolution = list(solution)
+                bestIteration = totalIterations
                 iterationsWithoutUpgrade = 0
             else:
                 iterationsWithoutUpgrade += 1
 
-            print("\nITERACIONES SIN MEJORA: " ,iterationsWithoutUpgrade)
+            print("\tITERACIONES SIN MEJORA:" ,iterationsWithoutUpgrade)
 
             self._tabu.append([x,y])
 
-            print("\n\nTABU 1;" ,self._tabu)
-            if len(self._tabu) >= 100:
-                self._tabu = self._tabu[1:-1]
+            # print("\n\nTABU 1;" ,self._tabu)
+            if len(self._tabu) > 100:
+                self._tabu.pop(0)
 
-            print("\nTABU 2;" ,self._tabu)
-            print("\n")
+            # print("\nTABU 2;" ,self._tabu)
+            # print("\n")
+            sys.stdout.write("\tLISTA TABU:")
             for u in range(0,len(self._tabu)):
-                print("\n\t" ,self._tabu[u])
+                sys.stdout.write("\n\t"+str(self._tabu[u][0])+" "+str(self._tabu[u][1]))
 
-            #refacer
+            print()
+            totalIterations += 1
 
-            iterations = 0
-            totalEncontrados+=1
+        print("\n\nMEJOR SOLUCION:")
+        sys.stdout.write("\tRECORRIDO: ")
+        for k in range(0, len(tmpBestSolution)):
+            sys.stdout.write(str(tmpBestSolution[k]) + " ")
+
+        print("\n\tCOSTE (km):", tmpBestSolutionCost)
+        print("\tITERACION:", bestIteration)
+
 
         return solution
 
