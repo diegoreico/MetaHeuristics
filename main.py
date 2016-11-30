@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 from Loader import Loader
 from Utils.RandomGenerator import RandomGenerator
 from Heuristics.BestFirstHeuristic import BestFirstHeuristic

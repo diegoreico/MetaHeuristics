@@ -70,13 +70,14 @@ class TabuSearchHeuristic(AbstractHeuristic):
             for i in range(0,len(solution)):
                 for j in range(0, i):
 
-                    # explores a new solution
-                    tmpSolution = self.permute(list(solution),i,j)
-
-                    # cost of the new solution
-                    newCost = self.calculateCost(dataset, tmpSolution)
-
                     if [i,j] not in self._tabu and i != j:
+
+                        # explores a new solution
+                        tmpSolution = self.permute(list(solution), i, j)
+
+                        # cost of the new solution
+                        newCost = self.calculateCost(dataset, tmpSolution)
+
                         if newCost < tmpBestSolutionCost:
                                 tmpBestSolutionCost = newCost
                                 tmpBestSolution = tmpSolution
@@ -111,12 +112,9 @@ class TabuSearchHeuristic(AbstractHeuristic):
 
             self._tabu.append([x,y])
 
-            # print("\n\nTABU 1;" ,self._tabu)
             if len(self._tabu) > 100:
                 self._tabu.pop(0)
 
-            # print("\nTABU 2;" ,self._tabu)
-            # print("\n")
             text=text+("\n\tLISTA TABU:")
             for u in range(0,len(self._tabu)):
                 text=text+("\n\t"+str(self._tabu[u][0])+" "+str(self._tabu[u][1]))
@@ -150,11 +148,6 @@ class TabuSearchHeuristic(AbstractHeuristic):
         aux = solution[X]
         solution[X] = solution[Y]
         solution[Y] = aux
-
-        # if X > Y:
-        #     sys.stdout.write("("+str(X)+", "+str(Y)+");")
-        # else:
-        #     sys.stdout.write("(" + str(Y) + ", " + str(X) + ");")
 
         return solution
 
