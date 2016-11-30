@@ -19,6 +19,8 @@ class TabuSearchHeuristic(AbstractHeuristic):
         if solution is None:
             solution = self.generateRandomSolution(dataset)
 
+        text = ""
+
         tmpBestSolution= solution
         tmpBestSolutionCost = self.calculateCost(dataset,solution)
         bestSolution = solution
@@ -40,13 +42,14 @@ class TabuSearchHeuristic(AbstractHeuristic):
         maxRowElems = len(dataset.value[-1])
         maxPermutes += (maxRowElems * (maxRowElems - 1))/2
 
-        print("RECORRIDO INICIAL")
-        sys.stdout.write("\tRECORRIDO: ")
+        text=text+("RECORRIDO INICIAL\n\tRECORRIDO: ")
         for k in range(0, len(tmpBestSolution)):
-            sys.stdout.write(str(tmpBestSolution[k])+" ")
+            text=text+(str(tmpBestSolution[k])+" ")
 
-        print("\n\tCOSTE (km):", tmpBestSolutionCost)
+        text=text+("\n\tCOSTE (km):" + str(tmpBestSolutionCost))
 
+        print(text)
+        text=""
 
         # explores the current search space
         while totalIterations <= maxIterations:
@@ -56,12 +59,9 @@ class TabuSearchHeuristic(AbstractHeuristic):
                 solution=bestSolution
                 numberOfRestarts+=1
                 iterationsWithoutUpgrade=0
-                print("\n***************");
-                print("REINICIO:",numberOfRestarts);
-                print("***************");
+                text=text+("\n***************\nREINICIO:" + str(numberOfRestarts) + "\n***************");
 
-
-            print("\nITERACION:" ,totalIterations)
+            text=text+("\nITERACION: " + str(totalIterations))
 
             # cost of the current solution
             lastCost = self.calculateCost(dataset, solution)
@@ -89,13 +89,12 @@ class TabuSearchHeuristic(AbstractHeuristic):
                 The explored data set must be set do default values
             """
 
-            sys.stdout.write("\tINTERCAMBIO: ("+str(x)+", "+str(y)+")")
-            sys.stdout.write("\n\tRECORRIDO: ")
+            text=text+("\n\tINTERCAMBIO: ("+str(x)+", "+str(y)+")\n\tRECORRIDO: ")
 
             for k in range(0,len(tmpBestSolution)):
-                sys.stdout.write(str(tmpBestSolution[k])+" ")
+                text=text+(str(tmpBestSolution[k])+" ")
 
-            print("\n\tCOSTE (km):" ,tmpBestSolutionCost)
+            text=text+("\n\tCOSTE (km): " + str(tmpBestSolutionCost))
 
             solution = tmpBestSolution
             lastCost = tmpBestSolutionCost
@@ -108,7 +107,7 @@ class TabuSearchHeuristic(AbstractHeuristic):
             else:
                 iterationsWithoutUpgrade += 1
 
-            print("\tITERACIONES SIN MEJORA:" ,iterationsWithoutUpgrade)
+            text=text+("\n\tITERACIONES SIN MEJORA: " + str(iterationsWithoutUpgrade))
 
             self._tabu.append([x,y])
 
@@ -118,21 +117,22 @@ class TabuSearchHeuristic(AbstractHeuristic):
 
             # print("\nTABU 2;" ,self._tabu)
             # print("\n")
-            sys.stdout.write("\tLISTA TABU:")
+            text=text+("\n\tLISTA TABU:")
             for u in range(0,len(self._tabu)):
-                sys.stdout.write("\n\t"+str(self._tabu[u][0])+" "+str(self._tabu[u][1]))
+                text=text+("\n\t"+str(self._tabu[u][0])+" "+str(self._tabu[u][1]))
 
-            print()
+            text=text+("\n")
             totalIterations += 1
+            sys.stdout.write(text)
+            text=""
 
-        print("\n\nMEJOR SOLUCION:")
-        sys.stdout.write("\tRECORRIDO: ")
+        text=text+("\n\nMEJOR SOLUCION:\n\tRECORRIDO: ")
         for k in range(0, len(tmpBestSolution)):
-            sys.stdout.write(str(tmpBestSolution[k]) + " ")
+            text=text+(str(tmpBestSolution[k]) + " ")
 
-        print("\n\tCOSTE (km):", tmpBestSolutionCost)
-        print("\tITERACION:", bestIteration)
+        text=text+("\n\tCOSTE (km):" + str(tmpBestSolutionCost) + "\n\tITERACION:"+ str(bestIteration))
 
+        sys.stdout.write(text)
 
         return solution
 
