@@ -46,7 +46,7 @@ class TabuSearchHeuristic(AbstractHeuristic):
         for k in range(0, len(tmpBestSolution)):
             text=text+(str(tmpBestSolution[k])+" ")
 
-        text=text+("\n\tCOSTE (km):" + str(tmpBestSolutionCost))
+        text=text+("\n\tCOSTE (km): " + str(tmpBestSolutionCost))
 
         print(text)
         text=""
@@ -59,7 +59,7 @@ class TabuSearchHeuristic(AbstractHeuristic):
                 solution=bestSolution
                 numberOfRestarts+=1
                 iterationsWithoutUpgrade=0
-                text=text+("\n***************\nREINICIO:" + str(numberOfRestarts) + "\n***************");
+                text=text+("\n***************\nREINICIO: " + str(numberOfRestarts) + "\n***************\n");
 
             text=text+("\nITERACION: " + str(totalIterations))
 
@@ -68,19 +68,53 @@ class TabuSearchHeuristic(AbstractHeuristic):
             tmpBestSolutionCost = lastCost*2
 
             for i in range(0,len(solution)):
+                # print()
+                #print(range(0, i))
                 for j in range(0, i):
-
-                    if [i,j] not in self._tabu and i != j:
-
+                    #sys.stdout.write("\ni:" +str(i)+"\t,j:" +str(j))
+                    if i != j and [i,j] not in self._tabu:
                         # explores a new solution
-                        tmpSolution = self.permute(list(solution), i, j)
 
                         # cost of the new solution
-                        newCost = self.calculateCost(dataset, tmpSolution)
+                        #newCost = self.calculateCost(dataset, tmpSolution)
+
+                        newCost = lastCost
+
+                        #tal vez é necesario restar 1a segunda componente
+                        if j + 1 != i:
+                            if i > 0:
+                                newCost -= dataset.getValueAdapt(solution[i - 1],solution[i])
+                                newCost += dataset.getValueAdapt(solution[i - 1],solution[j])
+                            else:
+                                newCost -= dataset.getValueAdapt(solution[i],0)
+                                newCost += dataset.getValueAdapt(solution[j],0)
+
+
+                        if i < len(solution)-1:
+                            newCost -= dataset.getValueAdapt(solution[i],solution[i + 1])
+                            newCost += dataset.getValueAdapt(solution[j],solution[i + 1])
+                        else:
+                            newCost -= dataset.getValueAdapt(solution[i],0)
+                            newCost += dataset.getValueAdapt(solution[j],0)
+
+                        if j > 0 :
+                            newCost -= dataset.getValueAdapt(solution[j - 1],solution[j])
+                            newCost += dataset.getValueAdapt(solution[j - 1],solution[i])
+                        else:
+                            newCost -= dataset.getValueAdapt(solution[j],0)
+                            newCost += dataset.getValueAdapt(solution[i],0)
+
+                        if j + 1 != i:
+                            if j < len(solution)-1:
+                                newCost -= dataset.getValueAdapt(solution[j],solution[j + 1])
+                                newCost += dataset.getValueAdapt(solution[i],solution[j + 1])
+                            else:
+                                newCost -= dataset.getValueAdapt(solution[j],0)
+                                newCost += dataset.getValueAdapt(solution[i],0)
 
                         if newCost < tmpBestSolutionCost:
                                 tmpBestSolutionCost = newCost
-                                tmpBestSolution = tmpSolution
+                                tmpBestSolution = self.permute(list(solution), i, j)
                                 x = i
                                 y = j
 
@@ -100,7 +134,7 @@ class TabuSearchHeuristic(AbstractHeuristic):
             solution = tmpBestSolution
             lastCost = tmpBestSolutionCost
 
-            if bestSolutionCost > lastCost:
+            if lastCost < bestSolutionCost:
                 bestSolutionCost = lastCost
                 bestSolution = list(solution)
                 bestIteration = totalIterations
@@ -124,11 +158,11 @@ class TabuSearchHeuristic(AbstractHeuristic):
             sys.stdout.write(text)
             text=""
 
-        text=text+("\n\nMEJOR SOLUCION:\n\tRECORRIDO: ")
+        text=text+("\n\nMEJOR SOLUCION: \n\tRECORRIDO: ")
         for k in range(0, len(tmpBestSolution)):
-            text=text+(str(tmpBestSolution[k]) + " ")
+            text=text+(str(bestSolution[k]) + " ")
 
-        text=text+("\n\tCOSTE (km):" + str(tmpBestSolutionCost) + "\n\tITERACION:"+ str(bestIteration))
+        text=text+("\n\tCOSTE (km): " + str(bestSolutionCost) + "\n\tITERACION: "+ str(bestIteration)+"\n")
 
         sys.stdout.write(text)
 
