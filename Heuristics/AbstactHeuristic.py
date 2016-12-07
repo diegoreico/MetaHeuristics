@@ -91,3 +91,46 @@ class AbstractHeuristic(ABC):
             solution.append(value)
 
         return solution
+
+    def generateGreedySolution(self,dataset):
+
+        """
+
+        :param dataset:
+        :return:
+        """
+
+        length = len(dataset.value[-1])
+        solution = [0]
+        used = 0
+        first = True
+
+        while used < length:
+
+            for i in range(0,len(dataset.value)+1):
+
+                if i not in solution and i != used:
+
+                    if first:
+                        first = False
+                        min = i
+
+                    elif dataset.getValueAdapt(solution[used],i) < dataset.getValueAdapt(solution[used],min):
+                        min = i
+
+            first = True
+            solution.append(min)
+
+            used+=1
+
+        solution.pop(0)
+
+        return solution
+
+
+
+
+
+
+
+
