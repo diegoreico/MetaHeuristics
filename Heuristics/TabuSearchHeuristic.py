@@ -17,7 +17,7 @@ class TabuSearchHeuristic(AbstractHeuristic):
     def calculate(self, dataset=None, solution=None, exploredataset=None):
 
         if solution is None:
-            solution = self.generateGreedySolution(dataset)
+            solution = self.generateRandomSolution(dataset)
 
         text = ""
 
