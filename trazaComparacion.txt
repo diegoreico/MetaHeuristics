@@ -1,0 +1,80 @@
+
+SOLUCION S_0 -> [6, 7, 9, 2, 1, 5, 8, 3, 4]; 12524km
+	VECINO V_0 -> Intercambio: (1, 0); [7, 6, 9, 2, 1, 5, 8, 3, 4]; 13057km
+	VECINO V_1 -> Intercambio: (5, 1); [6, 5, 9, 2, 1, 7, 8, 3, 4]; 11965km
+
+SOLUCION S_1 -> [6, 5, 9, 2, 1, 7, 8, 3, 4]; 11965km
+	VECINO V_0 -> Intercambio: (5, 1); [6, 7, 9, 2, 1, 5, 8, 3, 4]; 12524km
+	VECINO V_1 -> Intercambio: (7, 5); [6, 5, 9, 2, 1, 3, 8, 7, 4]; 10431km
+
+SOLUCION S_2 -> [6, 5, 9, 2, 1, 3, 8, 7, 4]; 10431km
+	VECINO V_0 -> Intercambio: (7, 2); [6, 5, 7, 2, 1, 3, 8, 9, 4]; 10914km
+	VECINO V_1 -> Intercambio: (6, 1); [6, 8, 9, 2, 1, 3, 5, 7, 4]; 10347km
+
+SOLUCION S_3 -> [6, 8, 9, 2, 1, 3, 5, 7, 4]; 10347km
+	VECINO V_0 -> Intercambio: (3, 2); [6, 8, 2, 9, 1, 3, 5, 7, 4]; 8783km
+
+SOLUCION S_4 -> [6, 8, 2, 9, 1, 3, 5, 7, 4]; 8783km
+	VECINO V_0 -> Intercambio: (1, 0); [8, 6, 2, 9, 1, 3, 5, 7, 4]; 8763km
+
+SOLUCION S_5 -> [8, 6, 2, 9, 1, 3, 5, 7, 4]; 8763km
+	VECINO V_0 -> Intercambio: (6, 1); [8, 5, 2, 9, 1, 3, 6, 7, 4]; 9749km
+	VECINO V_1 -> Intercambio: (8, 7); [8, 6, 2, 9, 1, 3, 5, 4, 7]; 8789km
+	VECINO V_2 -> Intercambio: (6, 2); [8, 6, 5, 9, 1, 3, 2, 7, 4]; 9835km
+	VECINO V_3 -> Intercambio: (8, 3); [8, 6, 2, 4, 1, 3, 5, 7, 9]; 8458km
+
+SOLUCION S_6 -> [8, 6, 2, 4, 1, 3, 5, 7, 9]; 8458km
+	VECINO V_0 -> Intercambio: (8, 1); [8, 9, 2, 4, 1, 3, 5, 7, 6]; 6910km
+
+SOLUCION S_7 -> [8, 9, 2, 4, 1, 3, 5, 7, 6]; 6910km
+	VECINO V_0 -> Intercambio: (3, 0); [4, 9, 2, 8, 1, 3, 5, 7, 6]; 9358km
+	VECINO V_1 -> Intercambio: (3, 1); [8, 4, 2, 9, 1, 3, 5, 7, 6]; 6297km
+
+SOLUCION S_8 -> [8, 4, 2, 9, 1, 3, 5, 7, 6]; 6297km
+	VECINO V_0 -> Intercambio: (2, 0); [2, 4, 8, 9, 1, 3, 5, 7, 6]; 8261km
+	VECINO V_1 -> Intercambio: (3, 0); [9, 4, 2, 8, 1, 3, 5, 7, 6]; 9302km
+	VECINO V_2 -> Intercambio: (5, 1); [8, 3, 2, 9, 1, 4, 5, 7, 6]; 7787km
+	VECINO V_3 -> Intercambio: (4, 0); [1, 4, 2, 9, 8, 3, 5, 7, 6]; 7954km
+	VECINO V_4 -> Intercambio: (2, 1); [8, 2, 4, 9, 1, 3, 5, 7, 6]; 7011km
+	VECINO V_5 -> Intercambio: (3, 1); [8, 9, 2, 4, 1, 3, 5, 7, 6]; 6910km
+	VECINO V_6 -> Intercambio: (3, 2); [8, 4, 9, 2, 1, 3, 5, 7, 6]; 7889km
+	VECINO V_7 -> Intercambio: (1, 0); [4, 8, 2, 9, 1, 3, 5, 7, 6]; 7678km
+	VECINO V_8 -> Intercambio: (7, 6); [8, 4, 2, 9, 1, 3, 7, 5, 6]; 6026km
+
+SOLUCION S_9 -> [8, 4, 2, 9, 1, 3, 7, 5, 6]; 6026km
+	VECINO V_0 -> Intercambio: (8, 2); [8, 4, 6, 9, 1, 3, 7, 5, 2]; 8260km
+	VECINO V_1 -> Intercambio: (7, 6); [8, 4, 2, 9, 1, 3, 5, 7, 6]; 6297km
+	VECINO V_2 -> Intercambio: (6, 0); [7, 4, 2, 9, 1, 3, 8, 5, 6]; 8935km
+	VECINO V_3 -> Intercambio: (6, 1); [8, 7, 2, 9, 1, 3, 4, 5, 6]; 8763km
+	VECINO V_4 -> Intercambio: (8, 0); [6, 4, 2, 9, 1, 3, 7, 5, 8]; 7506km
+	VECINO V_5 -> Intercambio: (4, 1); [8, 1, 2, 9, 4, 3, 7, 5, 6]; 10122km
+	VECINO V_6 -> Intercambio: (7, 4); [8, 4, 2, 9, 5, 3, 7, 1, 6]; 6390km
+	VECINO V_7 -> Intercambio: (2, 0); [2, 4, 8, 9, 1, 3, 7, 5, 6]; 7990km
+	VECINO V_8 -> Intercambio: (5, 3); [8, 4, 2, 3, 1, 9, 7, 5, 6]; 6731km
+	VECINO V_9 -> Intercambio: (5, 0); [3, 4, 2, 9, 1, 8, 7, 5, 6]; 10019km
+	VECINO V_10 -> Intercambio: (7, 5); [8, 4, 2, 9, 1, 5, 7, 3, 6]; 8267km
+	VECINO V_11 -> Intercambio: (8, 1); [8, 6, 2, 9, 1, 3, 7, 5, 4]; 8284km
+	VECINO V_12 -> Intercambio: (4, 3); [8, 4, 2, 1, 9, 3, 7, 5, 6]; 7857km
+	VECINO V_13 -> Intercambio: (3, 1); [8, 9, 2, 4, 1, 3, 7, 5, 6]; 6639km
+	VECINO V_14 -> Intercambio: (7, 2); [8, 4, 5, 9, 1, 3, 7, 2, 6]; 6500km
+	VECINO V_15 -> Intercambio: (1, 0); [4, 8, 2, 9, 1, 3, 7, 5, 6]; 7407km
+	VECINO V_16 -> Intercambio: (5, 1); [8, 3, 2, 9, 1, 4, 7, 5, 6]; 7995km
+	VECINO V_17 -> Intercambio: (2, 1); [8, 2, 4, 9, 1, 3, 7, 5, 6]; 6740km
+	VECINO V_18 -> Intercambio: (3, 0); [9, 4, 2, 8, 1, 3, 7, 5, 6]; 9031km
+	VECINO V_19 -> Intercambio: (4, 0); [1, 4, 2, 9, 8, 3, 7, 5, 6]; 7683km
+	VECINO V_20 -> Intercambio: (5, 2); [8, 4, 3, 9, 1, 2, 7, 5, 6]; 9463km
+	VECINO V_21 -> Intercambio: (3, 2); [8, 4, 9, 2, 1, 3, 7, 5, 6]; 7618km
+	VECINO V_22 -> Intercambio: (5, 4); [8, 4, 2, 9, 3, 1, 7, 5, 6]; 6931km
+	VECINO V_23 -> Intercambio: (7, 3); [8, 4, 2, 5, 1, 3, 7, 9, 6]; 7216km
+	VECINO V_24 -> Intercambio: (8, 3); [8, 4, 2, 6, 1, 3, 7, 5, 9]; 6614km
+	VECINO V_25 -> Intercambio: (8, 4); [8, 4, 2, 9, 6, 3, 7, 5, 1]; 7662km
+	VECINO V_26 -> Intercambio: (8, 5); [8, 4, 2, 9, 1, 6, 7, 5, 3]; 6724km
+	VECINO V_27 -> Intercambio: (7, 0); [5, 4, 2, 9, 1, 3, 7, 8, 6]; 8723km
+	VECINO V_28 -> Intercambio: (8, 6); [8, 4, 2, 9, 1, 3, 6, 5, 7]; 8125km
+	VECINO V_29 -> Intercambio: (4, 2); [8, 4, 1, 9, 2, 3, 7, 5, 6]; 6878km
+	VECINO V_30 -> Intercambio: (6, 2); [8, 4, 7, 9, 1, 3, 2, 5, 6]; 7642km
+	VECINO V_31 -> Intercambio: (8, 7); [8, 4, 2, 9, 1, 3, 7, 6, 5]; 7127km
+	VECINO V_32 -> Intercambio: (6, 3); [8, 4, 2, 7, 1, 3, 9, 5, 6]; 7503km
+	VECINO V_33 -> Intercambio: (6, 4); [8, 4, 2, 9, 7, 3, 1, 5, 6]; 7433km
+	VECINO V_34 -> Intercambio: (6, 5); [8, 4, 2, 9, 1, 7, 3, 5, 6]; 7107km
+	VECINO V_35 -> Intercambio: (7, 1); [8, 5, 2, 9, 1, 3, 7, 4, 6]; 8417km
