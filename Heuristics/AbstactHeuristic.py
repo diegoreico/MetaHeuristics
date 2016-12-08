@@ -155,7 +155,45 @@ class AbstractHeuristic(ABC):
 
         return solution
 
+    def generateGreedySolutionWithMemory(self,dataset,longTimeMemory,nu,dmax,dmin,maxFrequency):
 
+        """
+
+        :param dataset:
+        :return:
+        """
+
+        length = len(dataset.value[-1])
+        solution = [0]
+        used = 0
+        first = True
+
+        distance = dmax-dmin
+
+        while used < length:
+
+            for i in range(0,len(dataset.value)+1):
+
+                if i not in solution and i != used:
+
+                    if first:
+                        first = False
+                        min = i
+
+                    currentCost = dataset.getValueAdapt(solution[used],i) + nu * distance * (longTimeMemory.getValueAdapt(solution[used], i) / maxFrequency)
+                    minCost = dataset.getValueAdapt(solution[used],min) + nu * distance * (longTimeMemory.getValueAdapt(solution[used], min) / maxFrequency)
+
+                    if currentCost < minCost :
+                        min = i
+
+            first = True
+            solution.append(min)
+
+            used+=1
+
+        solution.pop(0)
+
+        return solution
 
 
 
