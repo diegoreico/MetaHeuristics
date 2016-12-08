@@ -19,6 +19,20 @@ class TabuSearchHeuristic(AbstractHeuristic):
         if solution is None:
             solution = self.generateGreedySolution(dataset)
 
+        """
+            LONG TIME MEMORY
+        """
+
+        longTimeMemory = DataSet()
+
+        for i in range(0, len(dataset.value)):
+            line = []
+            for j in range(0,len(dataset.value[i])):
+                line.append(0)
+
+            longTimeMemory.value.append(line)
+
+
         text = ""
 
         tmpBestSolution= solution
@@ -27,7 +41,7 @@ class TabuSearchHeuristic(AbstractHeuristic):
         bestSolutionCost = tmpBestSolutionCost
 
         maxIterations=10000
-        maxPermutes = 0
+
 
         totalIterations = 1
 
@@ -38,9 +52,6 @@ class TabuSearchHeuristic(AbstractHeuristic):
         numberOfRestarts=0
         bestIteration=0
 
-        # calculates the number of the current search space to know when to stop
-        maxRowElems = len(dataset.value[-1])
-        maxPermutes += (maxRowElems * (maxRowElems - 1))/2
 
         text=text+("RECORRIDO INICIAL\n\tRECORRIDO: ")
         for k in range(0, len(tmpBestSolution)):
@@ -78,45 +89,14 @@ class TabuSearchHeuristic(AbstractHeuristic):
                         # cost of the new solution
                         #newCost = self.calculateCost(dataset, tmpSolution)
 
-                        newCost = lastCost
-
-                        #tal vez é necesario restar 1a segunda componente
-                        if j + 1 != i:
-                            if i > 0:
-                                newCost -= dataset.getValueAdapt(solution[i - 1],solution[i])
-                                newCost += dataset.getValueAdapt(solution[i - 1],solution[j])
-                            else:
-                                newCost -= dataset.getValueAdapt(solution[i],0)
-                                newCost += dataset.getValueAdapt(solution[j],0)
-
-
-                        if i < len(solution)-1:
-                            newCost -= dataset.getValueAdapt(solution[i],solution[i + 1])
-                            newCost += dataset.getValueAdapt(solution[j],solution[i + 1])
-                        else:
-                            newCost -= dataset.getValueAdapt(solution[i],0)
-                            newCost += dataset.getValueAdapt(solution[j],0)
-
-                        if j > 0 :
-                            newCost -= dataset.getValueAdapt(solution[j - 1],solution[j])
-                            newCost += dataset.getValueAdapt(solution[j - 1],solution[i])
-                        else:
-                            newCost -= dataset.getValueAdapt(solution[j],0)
-                            newCost += dataset.getValueAdapt(solution[i],0)
-
-                        if j + 1 != i:
-                            if j < len(solution)-1:
-                                newCost -= dataset.getValueAdapt(solution[j],solution[j + 1])
-                                newCost += dataset.getValueAdapt(solution[i],solution[j + 1])
-                            else:
-                                newCost -= dataset.getValueAdapt(solution[j],0)
-                                newCost += dataset.getValueAdapt(solution[i],0)
+                        newCost = self.calculateCostDifference(dataset, i, j, solution, lastCost)
 
                         if newCost < tmpBestSolutionCost:
                                 tmpBestSolutionCost = newCost
                                 tmpBestSolution = self.permute(list(solution), i, j)
                                 x = i
                                 y = j
+                                self.updateLongTimeMemory(longTimeMemory,tmpBestSolution)
 
 
             """
@@ -185,7 +165,53 @@ class TabuSearchHeuristic(AbstractHeuristic):
 
         return solution
 
+    def updateLongTimeMemory(self,longTimeMemory,solution):
+
+
+
+        longTimeMemory.setValueAdapt(0,solution[0],
+                                    longTimeMemory.getValueAdapt(0,solution[0]) + 1)
+
+
+        for i in range(0,len(solution)-1):
+            longTimeMemory.setValueAdapt(solution[i], solution[i+1],
+                                         longTimeMemory.getValueAdapt(solution[i], solution[i+1]) + 1)
+
+        longTimeMemory.setValueAdapt(solution[-1], 0,
+                                         longTimeMemory.getValueAdapt(solution[-1], 0) + 1)
+
+
+
 class TestingHeuristic(unittest.TestCase):
+
+
+    def test_updateLongTimeMemory(self):
+        solution = [1, 2, 3, 4, 5]
+
+        longTimeMemory = DataSet()
+        longTimeMemory.value=[
+            [0],
+            [0,0],
+            [0,0,0],
+            [0,0,0,0],
+            [0,0,0,0,0]
+        ]
+
+        right=[
+            [1],
+            [0,1],
+            [0,0,1],
+            [0,0,0,1],
+            [1,0,0,0,1]
+        ]
+
+        heuristic = TabuSearchHeuristic()
+        heuristic.updateLongTimeMemory(longTimeMemory,solution)
+
+        # for i in range(0,len(longTimeMemory.value)):
+        #     print(longTimeMemory.value[i])
+
+        self.assertEqual(right,longTimeMemory.value,"Wrong updates on long time memory")
 
 
     def test_permute(self):

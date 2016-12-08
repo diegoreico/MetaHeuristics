@@ -28,19 +28,25 @@ class DataSet:
 
     def getValueAdapt(self, x, y):
         # print("\n\ti:" ,x,"\t,j:" ,y)
-        if x == y:
-            return int(self._value[x-1][y-2])
-        elif x > y:
+        if x > y:
             return int(self._value[x-1][y])
-        else:
+        elif x < y:
             return int(self._value[y-1][x])
-
+        else:
+            return int(self._value[x-1][y-2])
 
     def setValueXY(self, x, y, value):
         if x >= y:
             self._value[x-1][y] = value
         else:
             self._value[y][x] = value
+
+    def setValueAdapt(self, x, y, value):
+        if x > y:
+            self._value[x-1][y] = value
+        elif x < y:
+            self._value[y-1][x] = value
+
 
     def __init__(self, value=None):
         if value is None:
