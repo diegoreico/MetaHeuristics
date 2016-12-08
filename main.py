@@ -34,7 +34,7 @@ class Main:
         # heuristic = BestFirstHeuristic(randomG)
         heuristic = TabuSearchHeuristic(randomG)
 
-        solution = heuristic.generateRandomSolution(dataSet)
+        solution = heuristic.generateGreedySolution(dataSet)
 
         #print("\n\tExplore data set: ", dataSet.value)
 
