@@ -14,6 +14,7 @@ class TabuSearchHeuristic(AbstractHeuristic):
     def __init__(self,randomGenerator=None):
         super().__init__(randomGenerator)
         self._tabu = []
+        self._lastTabu =[]
         self._tabuSize = 50
         self._lastSoluionsCostSize = 10
 
@@ -50,6 +51,8 @@ class TabuSearchHeuristic(AbstractHeuristic):
             longTimeMemory.value.append(line)
 
 
+        listOfLastCots = []
+        lastCostsAverage=0
 
         text = ""
 
@@ -84,14 +87,24 @@ class TabuSearchHeuristic(AbstractHeuristic):
         while totalIterations <= maxIterations:
 
 
-            if(iterationsWithoutUpgrade == 50):
-                self._tabu=[]
-                solution=self.generateGreedySolutionWithMemory(dataset,longTimeMemory,nu,maxDistance,minDistance,maxFrequency)
-                # solution = self.generateGreedySolution(dataset)
-                # solution = self.generateRandomSolution(dataset)
-                # solution = bestSolution
-                numberOfRestarts+=1
-                iterationsWithoutUpgrade=0
+            if(iterationsWithoutUpgrade == 100):
+                self._tabu = []
+
+            if len(listOfLastCots) == self._lastSoluionsCostSize and lastCostsAverage > bestSolutionCost:
+                listOfLastCots=[]
+
+                #TODO: funciona ben pero a lista tabu coa condicion que se usa para o if actualmente estase a borrar demasiado pronto
+                #self._tabu = []
+
+                nu +=0.001
+                if nu > 0.10:
+                    nu = -0.10
+
+                solution = self.generateGreedySolutionWithMemory(dataset,longTimeMemory,nu,maxDistance,minDistance,maxFrequency)
+
+                numberOfRestarts += 1
+                iterationsWithoutUpgrade = 0
+
                 text=text+("\n***************\nREINICIO: " + str(numberOfRestarts) + "\n***************\n");
 
             text=text+("\nITERACION: " + str(totalIterations))
@@ -135,7 +148,13 @@ class TabuSearchHeuristic(AbstractHeuristic):
             solution = tmpBestSolution
             lastCost = tmpBestSolutionCost
 
+            listOfLastCots.append(lastCost)
+            if len(listOfLastCots) == self._lastSoluionsCostSize:
+                lastCostsAverage = sum(listOfLastCots)/len(listOfLastCots)
+
             if lastCost < bestSolutionCost:
+
+                self._lastTabuu = list(self._tabu)
 
                 maxFrequencyOld = maxFrequency
 
@@ -267,6 +286,34 @@ class TabuSearchHeuristic(AbstractHeuristic):
 
 
 class TestingHeuristic(unittest.TestCase):
+
+    def test_checkCost(self):
+
+        data = DataSet()
+        data.value = [
+            [1],
+            [2, 6],
+            [3, 7, 10],
+            [4, 8, 11, 13],
+            [5, 9, 12, 14, 15]
+        ]
+
+        longTimeMemory = DataSet()
+        longTimeMemory.value=[
+            [0],
+            [0, 0],
+            [0, 0, 0],
+            [0, 0, 0, 0],
+            [0, 0, 0, 0, 0]
+        ]
+
+
+        heuristic = TabuSearchHeuristic()
+
+        greedySolution = heuristic.generateGreedySolutionWithMemory(data,longTimeMemory,1,15,1,1)
+        result=heuristic.costUsingLongTimeMemory(longTimeMemory,greedySolution,1,14,14,1)
+
+        self.assertEqual(result,0,"Wrong updates on overcost")
 
     def test_greedywithmemory2(self):
 

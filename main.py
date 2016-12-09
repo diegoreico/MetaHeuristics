@@ -36,6 +36,7 @@ class Main:
 
         solution = heuristic.generateGreedySolution(dataSet)
 
+
         #print("\n\tExplore data set: ", dataSet.value)
 
         #print("\nRANDOM SOLUTION: ",solution)
