@@ -1,0 +1,12 @@
+# Mejoras realizadas sobre la busqueda tabú
+
+Para la práctica actual he comenzado por implementar la creación de soluciones **greedy** o **voraz**, de forma que la primera solución que se obtenga en la heurística, se obtenga mediante este mecanismo, proporcionando así una solución inicial relativamente buena (~4500 km).
+
+Una vez hecho esto, también he aplicado esta técnica para generar la solución base que se usa cada vez que se produce un reinicio en la heurística, ya que analizando la traza generada por la heurística, pude comprobar que cuando esta realizaba labores de intensificación sobre una solución aleatoria, nunca llegaba a igualar el coste de una solución generada de forma **voraz**.
+
+El problema de realizar las reinicialilzaciones mediante esta técnica, reside en que siempre se van a explorar las misma soluciones, por lo que para evitar esto, se implementó la matriz de probabilidades mencionada en el apartado opcional de la práctica, de esta forma las soluciones **voraces** que se generan en cada reinicio son diferentes en función de las veces que se usase el recorrido de una ciudad X a una ciudad Y. En este caso, los mejores resultados que se han obtenido, fueron utilizando un valor de mu = 0.005.
+
+Al utilizar la matriz de probabilidades, se consigue diversificar las soluciones en función del valor de mu utilizado. Tras observar durante bastante tiempo los resultados, me fijé en que las mejores soluciones siempe se encontraban en las primeras iteraciones y todas las encontradas a posterior, tras la diversificación, siempre eran peores. Por lo que busqué una forma de poder intensificar esas soluciones y no siempre penalizarlas en la matriz de probabilidades. Para ello, almaceno el coste las diez últimas soluciones analizadas (factor seleccionado arbitrariamente) y comparo su media con el valor
+de la mejor solución encontrado hasta el momento, si el coste es superior se para la intensificación, en caso contrario se continua. A esto último le añado que el valor de mu aumenta en 0.001 en cada reinicio y cuando este llega a 0.01, en el siguiente reinicio empezará con un valor de -0.10. El uso de un valor negativo de mu resulta bastante interesante, porque de esta forma se premia el uso de aquellos elementos de la solución que previamente han alludado a la generación de buenas soluciones.
+
+Todo lo explicado anteriormente ha llevado a que se encuentre una solución con un coste de **2924 km** en la iteración **3084**.
