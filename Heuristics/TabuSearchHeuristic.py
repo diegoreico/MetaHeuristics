@@ -1,6 +1,5 @@
 from Heuristics.AbstactHeuristic import AbstractHeuristic
 from DataSet import DataSet
-from copy import deepcopy
 import sys
 import unittest
 
