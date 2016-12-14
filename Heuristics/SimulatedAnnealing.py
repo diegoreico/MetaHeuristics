@@ -90,7 +90,6 @@ class SimulatedAnnealing(AbstractHeuristic):
                 T = T0 / (1 + k)
                 numberOfCoolings += 1
 
-            if numberOfGeneratedCandidateSolutions == 0 or numberOfAcceptedCandidateSolutions == 0:
                 txt = "============================"
                 txt += "\nENFRIAMIENTO: " + str(numberOfCoolings)
                 txt += "\n============================"
