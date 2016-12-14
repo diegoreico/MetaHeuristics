@@ -25,6 +25,10 @@ class SimulatedAnnealing(AbstractHeuristic):
 
         # initial value of control variable,T0 = (mu/-ln(phi)) * Cost of initial solution
         cost = self.calculateCost(dataset, solution)
+
+        globaSolution = solution
+        globalCost = cost
+
         T0 = (self.mu/-numpy.log(self.phi)) * cost
         T=T0
 
@@ -42,6 +46,7 @@ class SimulatedAnnealing(AbstractHeuristic):
         numberOfAcceptedCandidateSolutions = 0
         numberOfGeneratedCandidateSolutions = 0
         numberOfCoolings = 0
+        iterationFound = 0
 
         for k in range(10000):
 
@@ -72,14 +77,15 @@ class SimulatedAnnealing(AbstractHeuristic):
                 cost = candidatesolutionCost
                 accepted = True
 
+                if cost < globalCost:
+                    globalCost = cost
+                    globaSolution = list(solution)
+                    iterationFound = k
+
 
             # cooling, Cauchy -> T = T0 /(1+k)
-            if numberOfGeneratedCandidateSolutions == 80:
+            if numberOfGeneratedCandidateSolutions == 80 or numberOfAcceptedCandidateSolutions == 20:
                 numberOfGeneratedCandidateSolutions = 0
-                T = T0 / (1 + k)
-                numberOfCoolings += 1
-
-            if numberOfAcceptedCandidateSolutions == 20:
                 numberOfAcceptedCandidateSolutions = 0
                 T = T0 / (1 + k)
                 numberOfCoolings += 1
@@ -91,8 +97,8 @@ class SimulatedAnnealing(AbstractHeuristic):
                 txt += "\n\tTEMPERATURA: " + str(round(T, 6))
                 sys.stdout.write(txt)
 
-            txt = "ITERACION: " + str(k)
-            txt += "\n\tINTERMCABION: ("+str(x)+", "+str(y)+"9"
+            txt = "\nITERACION: " + str(k)
+            txt += "\n\tINTERMCABION: ("+str(x)+", "+str(y)+")"
             txt += "\n\tRECORRIDO: "
             for element in solution:
                 txt += str(element) + " "
@@ -106,6 +112,17 @@ class SimulatedAnnealing(AbstractHeuristic):
             txt += "\n"
 
             sys.stdout.write(txt)
+
+        txt = "\nMEJOR SOLUCION: "
+        txt += "\n\tRECORRIDO: "
+        for element in globaSolution:
+            txt += str(element) + " "
+
+        txt += "\n\tFUNCION OBJETIVO: " + str(globalCost)
+        txt += "\n\tITERACION: " + str(iterationFound)
+        txt += "\n\tmu = " + str(round(self.mu,2)) + ", phi = " + str(round(self.phi,1))
+
+        sys.stdout.write(txt)
 
         return solution
 
