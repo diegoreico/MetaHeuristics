@@ -89,6 +89,7 @@ class SimulatedAnnealing(AbstractHeuristic):
                 txt += "\nENFRIAMIENTO: " + str(numberOfCoolings)
                 txt += "\n============================"
                 txt += "\n\tTEMPERATURA: " + str(round(T, 6))
+                sys.stdout.write(txt)
 
             txt = "ITERACION: " + str(k)
             txt += "\n\tINTERMCABION: ("+str(x)+", "+str(y)+"9"
