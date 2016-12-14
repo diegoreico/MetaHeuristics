@@ -3,6 +3,7 @@ from Loader import Loader
 from Utils.RandomGenerator import RandomGenerator
 from Heuristics.BestFirstHeuristic import BestFirstHeuristic
 from Heuristics.TabuSearchHeuristic import TabuSearchHeuristic
+from Heuristics.SimulatedAnnealing import SimulatedAnnealing
 
 import sys
 
@@ -32,7 +33,7 @@ class Main:
         """ # select an heuristic """
 
         # heuristic = BestFirstHeuristic(randomG)
-        heuristic = TabuSearchHeuristic(randomG)
+        heuristic = SimulatedAnnealing(randomG)
 
         solution = heuristic.generateGreedySolution(dataSet)
 
