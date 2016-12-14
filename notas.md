@@ -32,3 +32,5 @@ criterio de parada: 1000 interacións - tendo en conta a inicial
 - realización de búsquedas locales cos mellores individuos (), generando o vecindario de un individuo e substituindo a dito individuo polo mellor do seu vecindario. O individuo o podemos generar como en prácticas anteriores
 
 - algoritmos meméticos
+
+- neste caso se usa 100 ciudades pero para a parte obligatoria usase o dataset de 10 ciudades
