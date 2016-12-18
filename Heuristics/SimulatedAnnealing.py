@@ -26,7 +26,7 @@ class SimulatedAnnealing(AbstractHeuristic):
         # initial value of control variable,T0 = (mu/-ln(phi)) * Cost of initial solution
         cost = self.calculateCost(dataset, solution)
 
-        globaSolution = solution
+        globalSolution = solution
         globalCost = cost
 
         T0 = (self.mu/-numpy.log(self.phi)) * cost
@@ -37,7 +37,7 @@ class SimulatedAnnealing(AbstractHeuristic):
         for element in solution:
             txt += str(element) + " "
 
-        txt += "\n\tFUNCION OBJETIVO: " + str(cost)
+        txt += "\n\tFUNCION OBJETIVO (km): " + str(cost)
         txt += "\n\tTEMPERATURA INICIAL: " + str(round(T,6))
         txt += "\n"
 
@@ -48,63 +48,51 @@ class SimulatedAnnealing(AbstractHeuristic):
         numberOfCoolings = 0
         iterationFound = 0
 
-        for k in range(10000):
+        for k in range(0,10000):
 
-            x = 0
-            y = 0
-            candidatesolutionCost = cost*2
-            candidateSolution=list(solution)
+            candidateSolutionCost = cost*2
+            candidateSolution = None
 
             for i in range(0,len(solution)):
                 for j in range(0, i):
                     if i != j :
                         newCost = self.calculateCostDifference(dataset, i, j, solution, cost)
 
-                        if newCost< candidatesolutionCost:
+                        if newCost <= candidateSolutionCost:
                                 candidateSolutionCost = newCost
-                                candidateSolution = self.permute(list(solution), i, j);
+                                candidateSolution = self.permute(list(solution), i, j)
                                 x=i
                                 y=j
 
-            numberOfGeneratedCandidateSolutions+=1
+            numberOfGeneratedCandidateSolutions += 1
 
-            delta = candidatesolutionCost - cost
-            exponential = pow(numpy.e,(-delta/T))
+            delta = candidateSolutionCost - cost
+            exponential = numpy.exp(-delta/T)
             accepted = False
-            if delta < 0 or self.randomGenerator.getRandomInt(0,1) < exponential:
-                numberOfAcceptedCandidateSolutions+=1
+            random = self.randomGenerator.getRawRandom()
+
+            if delta <= 0 or random <= exponential:
+
                 solution = candidateSolution
-                cost = candidatesolutionCost
+                cost = candidateSolutionCost
                 accepted = True
+                numberOfAcceptedCandidateSolutions += 1
 
                 if cost < globalCost:
                     globalCost = cost
-                    globaSolution = list(solution)
+                    globalSolution = list(solution)
                     iterationFound = k
 
-
-            # cooling, Cauchy -> T = T0 /(1+k)
-            if numberOfGeneratedCandidateSolutions == 80 or numberOfAcceptedCandidateSolutions == 20:
-                numberOfGeneratedCandidateSolutions = 0
-                numberOfAcceptedCandidateSolutions = 0
-                T = T0 / (1 + k)
-                numberOfCoolings += 1
-
-                txt = "============================"
-                txt += "\nENFRIAMIENTO: " + str(numberOfCoolings)
-                txt += "\n============================"
-                txt += "\n\tTEMPERATURA: " + str(round(T, 6))
-                sys.stdout.write(txt)
-
-            txt = "\nITERACION: " + str(k)
-            txt += "\n\tINTERMCABION: ("+str(x)+", "+str(y)+")"
+            txt = "\nITERACION: " + str(k+1)
+            txt += "\n\tINTERCAMBIO: ("+str(x)+", "+str(y)+")"
             txt += "\n\tRECORRIDO: "
-            for element in solution:
+            for element in candidateSolution:
                 txt += str(element) + " "
 
-            txt += "\n\tFUNCION OBJETIVO: " + str(cost)
-            txt += "\n\tTEMPERATURA: " + str(round(T, 6))
-            txt += "\n\tVALOR DE LA EXPONENCIAL: " + str(exponential)
+            txt += "\n\tFUNCION OBJETIVO (km): " + str(candidateSolutionCost)
+            txt += "\n\tDELTA: " + str(delta)
+            txt += "\n\tTEMPERATURA: " + str("%.6f" % round(T, 6))
+            txt += "\n\tVALOR DE LA EXPONENCIAL: " + str("%.6f" % round(exponential,6))
             if accepted:
                 txt += "\n\tSOLUCION CANDIDATA ACEPTADA"
             txt += "\n\tCANDIDATAS PROBADAS: " + str(numberOfGeneratedCandidateSolutions) +", ACEPTADAS: "+ str(numberOfAcceptedCandidateSolutions)
@@ -112,14 +100,27 @@ class SimulatedAnnealing(AbstractHeuristic):
 
             sys.stdout.write(txt)
 
-        txt = "\nMEJOR SOLUCION: "
+            # cooling, Cauchy -> T = T0 /(1+k)
+            if numberOfGeneratedCandidateSolutions == 80 or numberOfAcceptedCandidateSolutions == 20:
+                numberOfGeneratedCandidateSolutions = 0
+                numberOfAcceptedCandidateSolutions = 0
+                numberOfCoolings += 1
+                T = T0 / (1 + numberOfCoolings)
+
+                txt = "\n============================"
+                txt += "\nENFRIAMIENTO: " + str(numberOfCoolings)
+                txt += "\n============================"
+                txt += "\nTEMPERATURA: " + str("%.6f" % round(T, 6)) + "\n"
+                sys.stdout.write(txt)
+
+        txt = "\n\nMEJOR SOLUCION: "
         txt += "\n\tRECORRIDO: "
-        for element in globaSolution:
+        for element in globalSolution:
             txt += str(element) + " "
 
-        txt += "\n\tFUNCION OBJETIVO: " + str(globalCost)
-        txt += "\n\tITERACION: " + str(iterationFound)
-        txt += "\n\tmu = " + str(round(self.mu,2)) + ", phi = " + str(round(self.phi,1))
+        txt += "\n\tFUNCION OBJETIVO (km): " + str(globalCost)
+        txt += "\n\tITERACION: " + str(iterationFound+1)
+        txt += "\n\tmu = " + str(round(self.mu,2)) + ", phi = " + str(round(self.phi,1)) +"\n"
 
         sys.stdout.write(txt)
 

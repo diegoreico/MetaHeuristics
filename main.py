@@ -35,15 +35,12 @@ class Main:
         # heuristic = BestFirstHeuristic(randomG)
         heuristic = SimulatedAnnealing(randomG)
 
-        solution = heuristic.generateGreedySolution(dataSet)
-
-
         #print("\n\tExplore data set: ", dataSet.value)
 
         #print("\nRANDOM SOLUTION: ",solution)
         #print("\nCOST OF SOLUTION: ",heuristic.calculateCost(dataSet,solution))
 
-        solution = heuristic.calculate(dataSet,solution)
+        solution = heuristic.calculate(dataSet)
 
         # print("\nBEST SOLUTION: ",solution)
         # print("\nCOST OF SOLUTION: ",heuristic.calculateCost(dataSet,solution))

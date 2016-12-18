@@ -35,5 +35,10 @@ class RandomGenerator:
             return random.randint(i, j-1)
 
 
+    def getRawRandom(self):
+        if self.hasPath:
+            randomNumber = self.queueOfRandomNumbers.popleft()
 
-
+            return randomNumber
+        else:
+            return random.randint(i, j - 1)
