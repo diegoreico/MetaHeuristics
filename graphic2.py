@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
 
-path="./aqui"
+path="./salida"
 
 data = []
 acumular = False
@@ -11,8 +11,8 @@ acumular = False
 file = open(path)
 for line in file:
 
-    if line.startswith("\tCOSTE"):
-        data.append(int(line.replace("\tCOSTE (km):","",1)))
+    if line.startswith("\tFUNCION OBJETIVO (km):"):
+        data.append(int(line.replace("\tFUNCION OBJETIVO (km):","",1)))
 
 file.close()
 data=data[1:]

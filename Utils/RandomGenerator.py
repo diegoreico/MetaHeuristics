@@ -41,4 +41,4 @@ class RandomGenerator:
 
             return randomNumber
         else:
-            return random.randint(i, j - 1)
+            return random.randint(0, 1)

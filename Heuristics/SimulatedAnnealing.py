@@ -47,6 +47,7 @@ class SimulatedAnnealing(AbstractHeuristic):
         numberOfGeneratedCandidateSolutions = 0
         numberOfCoolings = 0
         iterationFound = 0
+        exponential = 0
 
         for k in range(0,10000):
 
@@ -102,6 +103,9 @@ class SimulatedAnnealing(AbstractHeuristic):
 
             # cooling, Cauchy -> T = T0 /(1+k)
             if numberOfGeneratedCandidateSolutions == 80 or numberOfAcceptedCandidateSolutions == 20:
+                solution = self.generateGreedySolution(dataset)
+                cost = self.calculateCost(dataset, solution)
+
                 numberOfGeneratedCandidateSolutions = 0
                 numberOfAcceptedCandidateSolutions = 0
                 numberOfCoolings += 1
