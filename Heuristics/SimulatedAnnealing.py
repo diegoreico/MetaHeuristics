@@ -48,15 +48,18 @@ class SimulatedAnnealing(AbstractHeuristic):
         numberOfCoolings = 0
         iterationFound = 0
         exponential = 0
-
-        for k in range(0,10000):
+        k=0
+        while k < 10000:
 
             candidateSolutionCost = cost*2
             candidateSolution = None
 
-            for i in range(0,len(solution)):
-                for j in range(0, i):
-                    if i != j :
+            longs=len(solution)
+            i=0
+            while i < longs:
+                j = 0
+                while j < i:
+                    if i is not j :
                         newCost = self.calculateCostDifference(dataset, i, j, solution, cost)
 
                         if newCost <= candidateSolutionCost:
@@ -64,6 +67,9 @@ class SimulatedAnnealing(AbstractHeuristic):
                                 candidateSolution = self.permute(list(solution), i, j)
                                 x=i
                                 y=j
+                    j+=1
+                i+=1
+
 
             numberOfGeneratedCandidateSolutions += 1
 
@@ -114,6 +120,8 @@ class SimulatedAnnealing(AbstractHeuristic):
                 txt += "\n============================"
                 txt += "\nTEMPERATURA: " + str("%.6f" % round(T, 6)) + "\n"
                 sys.stdout.write(txt)
+
+            k+=1
 
         txt = "\n\nMEJOR SOLUCION: "
         txt += "\n\tRECORRIDO: "
