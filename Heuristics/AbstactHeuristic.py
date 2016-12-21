@@ -137,7 +137,7 @@ class AbstractHeuristic(ABC):
 
             for i in range(0,len(dataset.value)+1):
 
-                if i not in solution and i != used:
+                if i not in solution:
 
                     if first:
                         first = False
