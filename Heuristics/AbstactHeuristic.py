@@ -166,29 +166,32 @@ class AbstractHeuristic(ABC):
         length = len(dataset.value[-1])
         solution = [0]
         used = 0
-        first = True
-
 
         #TODO: check if len should be len(dataset.value) or len(dataset.value)-1
-        min = dataset.getValueAdapt(
-            self.randomGenerator.getRandomInt(0 ,len(dataset.value)-1),
-            self.randomGenerator.getRandomInt(0 ,len(dataset.value)-1)
-        )
+        min = self.randomGenerator.getRandomInt(0 ,length)+1
 
         solution.append(min)
         used += 1
 
+        first = True
+
         while used < length:
 
-            for i in range(0,len(dataset.value)+1):
+            for i in range(0, len(dataset.value) + 1):
 
                 if i not in solution:
 
-                    if dataset.getValueAdapt(solution[used],i) < dataset.getValueAdapt(solution[used],min):
+                    if first:
+                        first = False
                         min = i
 
+                    elif dataset.getValueAdapt(solution[used], i) < dataset.getValueAdapt(solution[used], min):
+                        min = i
+
+            first = True
             solution.append(min)
-            used+=1
+
+            used += 1
 
         solution.pop(0)
 

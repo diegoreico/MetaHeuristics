@@ -4,6 +4,7 @@ from Utils.RandomGenerator import RandomGenerator
 from Heuristics.BestFirstHeuristic import BestFirstHeuristic
 from Heuristics.TabuSearchHeuristic import TabuSearchHeuristic
 from Heuristics.SimulatedAnnealing import SimulatedAnnealing
+from Heuristics.EvolutiveHeuristic import EvolutiveHeuristic
 
 import sys
 
@@ -33,7 +34,7 @@ class Main:
         """ # select an heuristic """
 
         # heuristic = BestFirstHeuristic(randomG)
-        heuristic = SimulatedAnnealing(randomG)
+        heuristic = EvolutiveHeuristic(randomG)
 
         #print("\n\tExplore data set: ", dataSet.value)
 
