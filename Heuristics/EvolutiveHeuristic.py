@@ -20,9 +20,22 @@ class EvolutiveHeuristic(AbstractHeuristic):
 
     def calculate(self, dataset=None, solution=None, exploredataset=None):
 
-        if solution is None:
-            solution = self.generateGreedySolution(dataset)
+        # TODO: generate initial ppulation
+        #   - Half of it should be random
+        #   - The other half must be generated using greedy with a random value for first element of the solution
 
+        # TODO: generación de una nueba población cruzando los padres
+        # probabilidad de cruce = 0.9
+
+        # TODO: aplicar mutaciones en base a la probabilidad de las mismas
+        # intercambio recíproco (transparencia 5.5.33), no que dúas cidades distintas
+        # elixidas aleatoriamente intercambian as súas posicións
+
+        # TODO: obtencion de la nueva población candidata
+
+        # TODO: reemplazo de la anterior población
+        # selección por torneo de tamaño 2, no que se selecciona o
+        # individuo de mellor fitness entre k=2 individuos escollidos aleatoriamente de entre a poboación.
 
         return solution
 

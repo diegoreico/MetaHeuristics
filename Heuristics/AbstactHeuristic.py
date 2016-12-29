@@ -155,6 +155,46 @@ class AbstractHeuristic(ABC):
 
         return solution
 
+    def generateGreedySolutionWithRandomFirstElement(self,dataset):
+
+        """
+
+        :param dataset:
+        :return:
+        """
+
+        length = len(dataset.value[-1])
+        solution = [0]
+        used = 0
+        first = True
+
+
+        #TODO: check if len should be len(dataset.value) or len(dataset.value)-1
+        min = dataset.getValueAdapt(
+            self.randomGenerator.getRandomInt(0 ,len(dataset.value)-1),
+            self.randomGenerator.getRandomInt(0 ,len(dataset.value)-1)
+        )
+
+        solution.append(min)
+        used += 1
+
+        while used < length:
+
+            for i in range(0,len(dataset.value)+1):
+
+                if i not in solution:
+
+                    if dataset.getValueAdapt(solution[used],i) < dataset.getValueAdapt(solution[used],min):
+                        min = i
+
+            solution.append(min)
+            used+=1
+
+        solution.pop(0)
+
+        return solution
+
+
     def generateGreedySolutionWithMemory(self,dataset,longTimeMemory,nu,dmax,dmin,maxFrequency):
 
         """
