@@ -57,7 +57,7 @@ class EvolutiveHeuristic(AbstractHeuristic):
         print(text)
 
         for iter in range(1,1000):
-            text = "\nITERACION: "+str(iter)+", SELECCION\n"
+            text = "ITERACION: "+str(iter)+", SELECCION\n"
 
             newSolutions = []
             newSolutionsCost = []
@@ -167,7 +167,7 @@ class EvolutiveHeuristic(AbstractHeuristic):
 
                     text += "\t\tPOSICION: " + str(j) + " (ALEATORIO " + str("%.6f" % round(rand, 6)) + ")"
 
-                    if rand < self._mutationProbability:
+                    if rand <= self._mutationProbability:
                         k = self.randomGenerator.getRandomInt(0,len(solutionsAfterCross[0]))
 
                         aux = solutionsAfterCross[n][j]
@@ -191,11 +191,64 @@ class EvolutiveHeuristic(AbstractHeuristic):
             text += "\nITERACION: " + str(iter) + ", REEMPLAZO\n"
 
 
-            solutions = sorted(solutions, key=lambda sol: self.calculateCost(dataset,sol))
-            solutionsCost = sorted(solutionsCost, key=lambda cost: int(cost))
+            # solutions = sorted(solutions, key=lambda sol: self.calculateCost(dataset,sol))
+            # solutionsCost = sorted(solutionsCost, key=lambda cost: int(cost))
+            #
+            # solutions = solutions[0:2]
+            # print(solutions)
+            # solutionsCost = solutionsCost[0:2]
 
-            solutions = solutions[0:2]
-            solutionsCost = solutionsCost[0:2]
+            solutions2 = list(solutions)
+            solutionsCost2 = list(solutionsCost)
+
+            solutions = []
+            solutionsCost = []
+
+            max1 = 0
+            coste1 = solutionsCost2[0]
+            for j in range(0,len(solutionsCost2)):
+                if solutionsCost2[j] <= coste1:
+                    max1 = j
+                    coste1=solutionsCost2[j]
+
+            max2 = 0
+            coste2 = solutionsCost2[0]
+            for j in range(0, len(solutionsCost2)):
+                if solutionsCost2[j] <= coste2 and j != max1:
+                    max2 = j
+                    coste2 = solutionsCost2[j]
+
+            if coste1 < coste2:
+                aux = max1
+                max1 = max2
+                max2 = aux
+
+            solutions.append(solutions2[max2])
+            solutions.append(solutions2[max1])
+
+            solutionsCost.append(solutionsCost2[max1])
+            solutionsCost.append(solutionsCost2[max2])
+
+            # while len(solutionsCost) != 2 :
+            #     if solutionsCost[0] >= solutionsCost[2]:
+            #         if solutionsCost[0] >= solutionsCost[1]:
+            #             solutionsCost.pop(0)
+            #             solutions.pop(0)
+            #         else:
+            #             solutionsCost.pop(1)
+            #             solutions.pop(1)
+            #     else:
+            #         solutionsCost.pop(2)
+            #         solutions.pop(2)
+            #
+            # if solutionsCost[0] < solutionsCost[1]:
+            #     aux = solutionsCost[0]
+            #     solutionsCost[0]=solutionsCost[1]
+            #     solutionsCost[1]=aux
+            #
+            #     aux = solutions[0]
+            #     solutions[0] = solutions[1]
+            #     solutions[1] = aux
 
             solutionsAfterCross = sorted(solutionsAfterCross, key=lambda sol: self.calculateCost(dataset, sol))
             solutionsCostAfterCross = sorted(solutionsCostAfterCross)
