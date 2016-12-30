@@ -56,7 +56,7 @@ class EvolutiveHeuristic(AbstractHeuristic):
 
         print(text)
 
-        for iter in range(1,1000):
+        for iter in range(1,1001):
             text = "ITERACION: "+str(iter)+", SELECCION\n"
 
             newSolutions = []
@@ -152,6 +152,9 @@ class EvolutiveHeuristic(AbstractHeuristic):
 
             text += "ITERACION: " + str(iter) + ", MUTACION\n"
 
+            solutionsAfterMutation = []
+            solutionsCostAfterMutation = []
+
             for n in range(0,len(solutionsAfterCross)):
                 text += "\tINDIVIDUO "+str(n)+"\n"
                 text += "\tRECORRIDO ANTES: "
@@ -161,30 +164,35 @@ class EvolutiveHeuristic(AbstractHeuristic):
 
                 text += "\n"
 
-                for j in range(len(dataset.value[-1])):
+                solutionsAfterMutation.append(list(solutionsAfterCross[n]))
+                solutionsCostAfterMutation.append(solutionsCostAfterCross[n])
+
+                for j in range(len(solutionsAfterCross[n])):
 
                     rand = self.randomGenerator.getRawRandom()
 
                     text += "\t\tPOSICION: " + str(j) + " (ALEATORIO " + str("%.6f" % round(rand, 6)) + ")"
 
-                    if rand <= self._mutationProbability:
+                    if rand < self._mutationProbability:
                         k = self.randomGenerator.getRandomInt(0,len(solutionsAfterCross[0]))
+                        aux = solutionsAfterMutation[-1][j]
+                        solutionsAfterMutation[-1][j] = solutionsAfterMutation[-1][k]
+                        solutionsAfterMutation[-1][k] = aux
 
-                        aux = solutionsAfterCross[n][j]
-                        solutionsAfterCross[n][j] = solutionsAfterCross[n][k]
-                        solutionsAfterCross[n][k] = aux
-
-                        solutionsCostAfterCross[n] = self.calculateCost(dataset,solutionsAfterCross[n])
+                        solutionsCostAfterMutation[-1] = self.calculateCost(dataset,solutionsAfterMutation[-1])
 
                         text += " INTERCAMBIO CON: " + str(k)
 
                     else:
                         text += " NO MUTA"
+
                     text += "\n"
 
                 text += "\tRECORRIDO DESPUES: "
-                for j in solutionsAfterCross[n]:
+
+                for j in solutionsAfterMutation[-1]:
                     text += str(j)+" "
+
 
                 text += "\n\n"
 
@@ -207,14 +215,14 @@ class EvolutiveHeuristic(AbstractHeuristic):
             max1 = 0
             coste1 = solutionsCost2[0]
             for j in range(0,len(solutionsCost2)):
-                if solutionsCost2[j] <= coste1:
+                if solutionsCost2[j] < coste1:
                     max1 = j
                     coste1=solutionsCost2[j]
 
             max2 = 0
             coste2 = solutionsCost2[0]
             for j in range(0, len(solutionsCost2)):
-                if solutionsCost2[j] <= coste2 and j != max1:
+                if solutionsCost2[j] < coste2 and j != max1:
                     max2 = j
                     coste2 = solutionsCost2[j]
 
@@ -223,8 +231,8 @@ class EvolutiveHeuristic(AbstractHeuristic):
                 max1 = max2
                 max2 = aux
 
-            solutions.append(solutions2[max2])
             solutions.append(solutions2[max1])
+            solutions.append(solutions2[max2])
 
             solutionsCost.append(solutionsCost2[max1])
             solutionsCost.append(solutionsCost2[max2])
@@ -250,12 +258,12 @@ class EvolutiveHeuristic(AbstractHeuristic):
             #     solutions[0] = solutions[1]
             #     solutions[1] = aux
 
-            solutionsAfterCross = sorted(solutionsAfterCross, key=lambda sol: self.calculateCost(dataset, sol))
-            solutionsCostAfterCross = sorted(solutionsCostAfterCross)
+            solutionsAfterMutation = sorted(solutionsAfterMutation, key=lambda sol: self.calculateCost(dataset, sol))
+            solutionsCostAfterMutation = sorted(solutionsCostAfterMutation)
 
-            for k in range(0,len(solutionsAfterCross)):
-                solutions.append(solutionsAfterCross[k])
-                solutionsCost.append(solutionsCostAfterCross[k])
+            for k in range(0,len(solutionsAfterMutation)):
+                solutions.append(solutionsAfterMutation[k])
+                solutionsCost.append(solutionsCostAfterMutation[k])
 
             for k in range(0,len(solutions)):
                 text += "INDIVIDUO " + str(k) + " = {FUNCION OBJETIVO (km): " + str(solutionsCost[k]) + ", RECORRIDO: "
@@ -270,7 +278,7 @@ class EvolutiveHeuristic(AbstractHeuristic):
 
             print(text)
 
-        text = "\nMEJOR SOLUCION:"
+        text = "\nMEJOR SOLUCION: "
         text += "\nRECORRIDO: "
         for j in bestSolution:
             text += str(j) + " "
