@@ -271,7 +271,7 @@ class EvolutiveHeuristic(AbstractHeuristic):
                     text += str(j)+" "
                 text += "}\n"
 
-            if bestCost < 0 or bestCost >= solutionsCost[0]:
+            if bestCost < 0 or bestCost > solutionsCost[0]:
                 bestSolution = solutions[0]
                 bestCost = solutionsCost[0]
                 bestIteration = iter
