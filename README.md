@@ -74,40 +74,15 @@ In this kind of search, we update the current solution with the first solution f
     | -----  | --- | --- | --- | --- | --- | --- | --- | --- |
     | City   | 2   | **1**   | 7   | 6   | 3   | **5**   | 4   | n   |
 
-##### Algorithm
-
-```
->>>>>>> tabuSearch
-maxPermutes = 0
-iterations = 0
-
-maxPermutes = number of different posibles solutions if we apply the operators to our current state
-
-while iterations < maxPermutes:
-    lastCost = calculateCost(solution)
-    newSolution = permute(solution) #makes a new unique permutation
-    newCost = calculateCost(newSolution)
-    iterations += 1
-
-    if newCost < lastCost:
-        iterations = 0
-        solution = newSolution
-
-return solution
-
-```
-
 ##### Stop condition
 
 The algorithm stops once we can't generate a better solution applying an operator to our current solution
-<<<<<<< HEAD
-    
+ 
 ## HOW TO RUN THE CODE
 
 ```bash
 python3 main.py
 ```
-=======
 
 ## HOW TO RUN THE CODE
 
@@ -127,26 +102,3 @@ This allows you to replicate a previous simulation, because the program will use
 python3 main.py filewithData fileWithRandomNumbers
 python3 main.py distancias_10.txt aleatorios_ls_2016.txt
 ```
-
-# MIT License
-
-Copyright (c) 2016 Diego Reiriz
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE
->>>>>>> tabuSearch

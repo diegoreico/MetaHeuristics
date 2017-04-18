@@ -58,6 +58,34 @@ class AbstractHeuristic(ABC):
 
         return cost
 
+    def calculateCostDifference(self, dataset, i, j, solution, newCost):
+        if j + 1 != i:
+            if i > 0:
+                newCost -= dataset.getValueAdapt(solution[i - 1], solution[i])
+                newCost += dataset.getValueAdapt(solution[i - 1], solution[j])
+            else:
+                newCost -= dataset.getValueAdapt(solution[i], 0)
+                newCost += dataset.getValueAdapt(solution[j], 0)
+        if i < len(solution) - 1:
+            newCost -= dataset.getValueAdapt(solution[i], solution[i + 1])
+            newCost += dataset.getValueAdapt(solution[j], solution[i + 1])
+        else:
+            newCost -= dataset.getValueAdapt(solution[i], 0)
+            newCost += dataset.getValueAdapt(solution[j], 0)
+        if j > 0:
+            newCost -= dataset.getValueAdapt(solution[j - 1], solution[j])
+            newCost += dataset.getValueAdapt(solution[j - 1], solution[i])
+        else:
+            newCost -= dataset.getValueAdapt(solution[j], 0)
+            newCost += dataset.getValueAdapt(solution[i], 0)
+        if j + 1 != i:
+            if j < len(solution) - 1:
+                newCost -= dataset.getValueAdapt(solution[j], solution[j + 1])
+                newCost += dataset.getValueAdapt(solution[i], solution[j + 1])
+            else:
+                newCost -= dataset.getValueAdapt(solution[j], 0)
+                newCost += dataset.getValueAdapt(solution[i], 0)
+        return newCost
 
     """
         Generates a random solution.It's usually used at start to generate a base solution
@@ -109,7 +137,7 @@ class AbstractHeuristic(ABC):
 
             for i in range(0,len(dataset.value)+1):
 
-                if i not in solution and i != used:
+                if i not in solution:
 
                     if first:
                         first = False
@@ -127,7 +155,88 @@ class AbstractHeuristic(ABC):
 
         return solution
 
+    def generateGreedySolutionWithRandomFirstElement(self,dataset):
 
+        """
+
+        :param dataset:
+        :return:
+        """
+
+        length = len(dataset.value[-1])
+        solution = [0]
+        used = 0
+
+        #TODO: check if len should be len(dataset.value) or len(dataset.value)-1
+        min = self.randomGenerator.getRandomInt(0 ,length)+1
+
+        solution.append(min)
+        used += 1
+
+        first = True
+
+        while used < length:
+
+            for i in range(0, len(dataset.value) + 1):
+
+                if i not in solution:
+
+                    if first:
+                        first = False
+                        min = i
+
+                    elif dataset.getValueAdapt(solution[used], i) < dataset.getValueAdapt(solution[used], min):
+                        min = i
+
+            first = True
+            solution.append(min)
+
+            used += 1
+
+        solution.pop(0)
+
+        return solution
+
+
+    def generateGreedySolutionWithMemory(self,dataset,longTimeMemory,nu,dmax,dmin,maxFrequency):
+
+        """
+
+        :param dataset:
+        :return:
+        """
+
+        length = len(dataset.value[-1])
+        solution = [0]
+        used = 0
+        first = True
+
+        distance = dmax-dmin
+
+        while used < length:
+
+            for i in range(0,len(dataset.value)+1):
+
+                if i not in solution and i != used:
+
+                    if first:
+                        first = False
+                        min = i
+
+                    currentCost = dataset.getValueAdapt(solution[used],i) + nu * distance * (longTimeMemory.getValueAdapt(solution[used], i) / maxFrequency)
+                    minCost = dataset.getValueAdapt(solution[used],min) + nu * distance * (longTimeMemory.getValueAdapt(solution[used], min) / maxFrequency)
+
+                    if currentCost < minCost :
+                        min = i
+
+            first = True
+            solution.append(min)
+
+            used+=1
+
+        solution.pop(0)
+
+        return solution
 
 
 

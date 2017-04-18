@@ -3,6 +3,8 @@ from Loader import Loader
 from Utils.RandomGenerator import RandomGenerator
 from Heuristics.BestFirstHeuristic import BestFirstHeuristic
 from Heuristics.TabuSearchHeuristic import TabuSearchHeuristic
+from Heuristics.SimulatedAnnealing import SimulatedAnnealing
+from Heuristics.EvolutiveHeuristic import EvolutiveHeuristic
 
 import sys
 
@@ -32,16 +34,14 @@ class Main:
         """ # select an heuristic """
 
         # heuristic = BestFirstHeuristic(randomG)
-        heuristic = TabuSearchHeuristic(randomG)
-
-        solution = heuristic.generateRandomSolution(dataSet)
+        heuristic = EvolutiveHeuristic(randomG)
 
         #print("\n\tExplore data set: ", dataSet.value)
 
         #print("\nRANDOM SOLUTION: ",solution)
         #print("\nCOST OF SOLUTION: ",heuristic.calculateCost(dataSet,solution))
 
-        solution = heuristic.calculate(dataSet,solution)
+        solution = heuristic.calculate(dataSet)
 
         # print("\nBEST SOLUTION: ",solution)
         # print("\nCOST OF SOLUTION: ",heuristic.calculateCost(dataSet,solution))
