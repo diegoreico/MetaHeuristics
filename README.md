@@ -44,7 +44,7 @@ In this kind of search, we update the current solution with the first solution f
 
 [WIP - description]
 
-#### Operators used for all heuristics
+## Operators used for all heuristics
 
 - **Permute:** exchanges the position of two cities in the solution array
 
@@ -60,9 +60,9 @@ In this kind of search, we update the current solution with the first solution f
     | -----  | --- | --- | --- | --- | --- | --- | --- | --- |
     | City   | 2   | **1**   | 7   | 6   | 3   | **5**   | 4   | n   |
 
-##### Stop condition
+## Stop condition
 
-The algorithm stops once we can't generate a better solution applying an operator to our current solution
+The algorithm stops once we can't generate a better solution applying an operator to our current solution or when it reaches a certain number [1000] of iterations
  
 ## HOW TO RUN THE CODE
 
