@@ -28,37 +28,23 @@ The cost of the solution is the sum of the distances of traveling from one city 
 
 ## Implemented MetaHeuristics
 
-### Local Search
-
 #### First Best
-<<<<<<< HEAD
  
 In this kind of search, we update the current solution with the first solution found that is better than our current solution, we don't need to search in all the possible search space. 
 
-##### Operators used
+### Tabu Search
 
-- **Permute:** exchanges the position of two cities in the solution array 
+[WIP - description]
 
-    Example:
-    
-    | Order  | 1   | 2   | 3   | 4   | 5   | 6   | 7   | n   |
-    | -----  | --- | --- | --- | --- | --- | --- | --- | --- |
-    | City   | 2   | 5   | 7   | 6   | 3   | 1   | 4   | n   |
-    
-    Permute(2,6)
-    
-    | Order  | 1   | 2   | 3   | 4   | 5   | 6   | 7   | n   |
-    | -----  | --- | --- | --- | --- | --- | --- | --- | --- |
-    | City   | 2   | **1**   | 7   | 6   | 3   | **5**   | 4   | n   |
-    
-##### Algorithm
-    
-```python
-=======
+### Simulated Annealing
 
-In this kind of search, we update the current solution with the first solution found that is better than our current solution, we don't need to search in all the possible search space.
+[WIP - description]
 
-##### Operators used
+### Evolutive Search
+
+[WIP - description]
+
+#### Operators used for all heuristics
 
 - **Permute:** exchanges the position of two cities in the solution array
 
@@ -80,12 +66,6 @@ The algorithm stops once we can't generate a better solution applying an operato
  
 ## HOW TO RUN THE CODE
 
-```bash
-python3 main.py
-```
-
-## HOW TO RUN THE CODE
-
 ### Normal execution
 
 ```bash
@@ -94,6 +74,7 @@ python3 main.py distancias_10.txt
 ```
 
 ### Debugging
+
 #### Providing a file with random numbers
 
 This allows you to replicate a previous simulation, because the program will use the numbers inside the file instead of generate new random numbers
