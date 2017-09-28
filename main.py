@@ -14,8 +14,6 @@ class Main:
 
     def __init__(self):
         """ load from file """
-
-        #print('Number of arguments:', len(sys.argv), 'arguments.')
         loader = None
         randomG = None
 
@@ -31,7 +29,7 @@ class Main:
         else:
             randomG = RandomGenerator()
 
-        """ # select an heuristic """
+        """ select an heuristic """
 
         # heuristic = BestFirstHeuristic(randomG)
         heuristic = EvolutiveHeuristic(randomG)
