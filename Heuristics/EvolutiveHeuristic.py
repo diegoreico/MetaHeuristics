@@ -19,11 +19,7 @@ class EvolutiveHeuristic(AbstractHeuristic):
         self._mutationProbability = 0.01
 
     def calculate(self, dataset=None, solution=None, exploredataset=None):
-
-        # TODO: generate initial population
-        #   - Half of it should be random
-        #   - The other half must be generated using greedy with a random value for first element of the solution
-
+        
         print("POBLACION INICIAL")
 
         individuo = 0
@@ -34,6 +30,8 @@ class EvolutiveHeuristic(AbstractHeuristic):
         bestIteration = 0
 
         text = ""
+        
+        """ generates the first half of the population using random solutions """
         for i in range(0,50):
             solutions.append(self.generateRandomSolution(dataset))
             solutionsCost.append(self.calculateCost(dataset,solutions[-1]))
@@ -44,6 +42,7 @@ class EvolutiveHeuristic(AbstractHeuristic):
             text += "}\n"
             individuo += 1
 
+        """ generates the second half of the population using a greedy solution """
         for i in range(0,50):
             solutions.append(self.generateGreedySolutionWithRandomFirstElement(dataset))
             solutionsCost.append(self.calculateCost(dataset, solutions[-1]))
@@ -198,14 +197,6 @@ class EvolutiveHeuristic(AbstractHeuristic):
 
             text += "\nITERACION: " + str(iter) + ", REEMPLAZO\n"
 
-
-            # solutions = sorted(solutions, key=lambda sol: self.calculateCost(dataset,sol))
-            # solutionsCost = sorted(solutionsCost, key=lambda cost: int(cost))
-            #
-            # solutions = solutions[0:2]
-            # print(solutions)
-            # solutionsCost = solutionsCost[0:2]
-
             solutions2 = list(solutions)
             solutionsCost2 = list(solutionsCost)
 
@@ -236,28 +227,7 @@ class EvolutiveHeuristic(AbstractHeuristic):
 
             solutionsCost.append(solutionsCost2[max1])
             solutionsCost.append(solutionsCost2[max2])
-
-            # while len(solutionsCost) != 2 :
-            #     if solutionsCost[0] >= solutionsCost[2]:
-            #         if solutionsCost[0] >= solutionsCost[1]:
-            #             solutionsCost.pop(0)
-            #             solutions.pop(0)
-            #         else:
-            #             solutionsCost.pop(1)
-            #             solutions.pop(1)
-            #     else:
-            #         solutionsCost.pop(2)
-            #         solutions.pop(2)
-            #
-            # if solutionsCost[0] < solutionsCost[1]:
-            #     aux = solutionsCost[0]
-            #     solutionsCost[0]=solutionsCost[1]
-            #     solutionsCost[1]=aux
-            #
-            #     aux = solutions[0]
-            #     solutions[0] = solutions[1]
-            #     solutions[1] = aux
-
+            
             solutionsAfterMutation = sorted(solutionsAfterMutation, key=lambda sol: self.calculateCost(dataset, sol))
             solutionsCostAfterMutation = sorted(solutionsCostAfterMutation)
 
@@ -348,8 +318,7 @@ class EvolutiveHeuristic(AbstractHeuristic):
         return zip(a, b)
 
 class TestingHeuristic(unittest.TestCase):
-
-
+    
     def test_orderCrossOver(self):
 
         heuristic = EvolutiveHeuristic()
